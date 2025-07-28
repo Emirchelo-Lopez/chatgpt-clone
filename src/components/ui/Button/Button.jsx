@@ -10,9 +10,12 @@ const Button = ({
   const buttonClassName = `btn ${className}`;
 
   return (
-    <button>
-      onClick={onClick}, type={type}, className={buttonClassName}
+    <button
+      onClick={onClick}
+      type={type}
+      className={buttonClassName}
       disabled={disabled}
+    >
       {children}
     </button>
   );

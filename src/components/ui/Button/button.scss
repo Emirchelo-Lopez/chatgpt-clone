@@ -1,0 +1,30 @@
+@import "../../../assets/styles/mixins";
+
+.btn {
+  @include button-base;
+}
+
+.chat-input {
+  &__action-btn {
+    padding: $spacing-sm;
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    border-radius: $border-radius-sm;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $color-text-primary;
+    }
+
+    &--send {
+      background-color: $color-button-primary;
+      color: $color-button-primary-text;
+
+      &:hover {
+        background-color: $color-text-secondary;
+      }
+    }
+  }
+}
