@@ -1,4 +1,5 @@
 @import "../../../assets/styles/mixins";
+@import "../../../assets/styles/variables";
 
 .btn {
   @include button-base;
@@ -25,6 +26,28 @@
       &:hover {
         background-color: $color-text-secondary;
       }
+    }
+  }
+}
+
+.sidebar {
+  &__new-chat-btn {
+    width: 100%;
+    background-color: $color-tertiary;
+    color: $color-text-primary;
+
+    &:hover {
+      background-color: $color-accent;
+    }
+  }
+  &__setting-btn {
+    width: 100%;
+    background-color: transparent;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+
+    &:hover {
+      background-color: $color-tertiary;
     }
   }
 }

@@ -29,16 +29,16 @@
     color: $color-button-primary-text;
   }
 
-  &__new-chat-btn {
-    @include button-base;
-    width: 100%;
-    background-color: $color-tertiary;
-    color: $color-text-primary;
+  //   &__new-chat-btn {
+  //     @include button-base;
+  //     width: 100%;
+  //     background-color: $color-tertiary;
+  //     color: $color-text-primary;
 
-    &:hover {
-      background-color: $color-accent;
-    }
-  }
+  //     &:hover {
+  //       background-color: $color-accent;
+  //     }
+  //   }
 
   &__nav {
     flex: 1;
@@ -71,17 +71,17 @@
     border-top: 1px solid $color-border;
   }
 
-  &__settings-btn {
-    @include button-base;
-    width: 100%;
-    background-color: transparent;
-    color: $color-text-primary;
-    margin-bottom: $spacing-md;
+  //   &__settings-btn {
+  //     @include button-base;
+  //     width: 100%;
+  //     background-color: transparent;
+  //     color: $color-text-primary;
+  //     margin-bottom: $spacing-md;
 
-    &:hover {
-      background-color: $color-tertiary;
-    }
-  }
+  //     &:hover {
+  //       background-color: $color-tertiary;
+  //     }
+  //   }
 
   &__profile {
     @include flex-start;
