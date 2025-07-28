@@ -1,0 +1,19 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+
+.chat-input {
+  &__textarea {
+    flex: 1;
+    background: transparent;
+    color: $color-text-primary;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: $font-size-base;
+    font-family: inherit;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+@use "variables";
+
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+// Button mixin
+@mixin button-base {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: $font-size-sm;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+// Gradient text mixin
+@mixin gradient-text {
+  background: linear-gradient(
+    135deg,
+    $color-gradient-start,
+    $color-gradient-middle,
+    $color-gradient-end
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+// Card mixin
+@mixin card-base {
+  background-color: $color-secondary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-xl;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $color-tertiary;
+    border-color: $color-border-hover;
+    transform: translateY(-2px);
+  }
+}

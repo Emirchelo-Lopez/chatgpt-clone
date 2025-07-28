@@ -1,0 +1,58 @@
+@import "../variables";
+@import "../mixins";
+
+.chat-input {
+  @include card-base;
+  border-radius: $border-radius-xl;
+  overflow: hidden;
+
+  &__container {
+    @include flex-start;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+  }
+
+  //   &__textarea {
+  //     flex: 1;
+  //     background: transparent;
+  //     color: $color-text-primary;
+  //     border: none;
+  //     outline: none;
+  //     resize: none;
+  //     font-size: $font-size-base;
+  //     font-family: inherit;
+
+  //     &::placeholder {
+  //       color: $color-text-muted;
+  //     }
+  //   }
+
+  &__actions {
+    @include flex-start;
+    gap: $spacing-sm;
+  }
+
+  &__action-btn {
+    padding: $spacing-sm;
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    border-radius: $border-radius-sm;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $color-text-primary;
+    }
+
+    &--send {
+      background-color: $color-button-primary;
+      color: $color-button-primary-text;
+
+      &:hover {
+        background-color: $color-text-secondary;
+      }
+    }
+  }
+}

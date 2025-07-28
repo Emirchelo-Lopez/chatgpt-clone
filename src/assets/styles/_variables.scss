@@ -1,0 +1,57 @@
+// Colors
+$color-primary: #1a1a1a;
+$color-secondary: #2d2d2d;
+$color-tertiary: #404040;
+$color-accent: #525252;
+$color-hover: #606060;
+
+$color-text-primary: #ffffff;
+$color-text-secondary: #b3b3b3;
+$color-text-muted: #808080;
+
+$color-gradient-start: #a855f7;
+$color-gradient-middle: #ec4899;
+$color-gradient-end: #8b5cf6;
+
+$color-border: #404040;
+$color-border-hover: #525252;
+
+$color-button-primary: #ffffff;
+$color-button-primary-text: #000000;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+
+// Border radius
+$border-radius-sm: 0.5rem;
+$border-radius-md: 0.75rem;
+$border-radius-lg: 1rem;
+$border-radius-xl: 1.5rem;
+
+// Breakpoints
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+$breakpoint-desktop: 1200px;
+
+// Sidebar
+$sidebar-width: 16rem;
+
+// Typography
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
