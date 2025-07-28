@@ -1,10 +1,12 @@
-@import "variables";
-@import "mixins";
-@import "components/chatgpt-clone";
-@import "components/sidebar";
-@import "components/main-content";
-@import "components/prompt-card";
-@import "components/chat-input";
+@use "variables" as *;
+@use "mixins" as *;
+@use "../../components/ui/TextArea/TextArea.scss";
+@use "../../components/ui/Button/button.scss";
+@use "components/chatgpt-clone";
+@use "components/sidebar";
+@use "components/main-content";
+@use "components/prompt-card";
+@use "components/chat-input";
 
 // Global styles
 * {

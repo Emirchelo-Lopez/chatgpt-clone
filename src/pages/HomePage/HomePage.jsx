@@ -13,6 +13,7 @@ import {
   Send,
 } from "lucide-react";
 import TextArea from "../../components/ui/TextArea/TextArea";
+import Button from "../../components/ui/Button/Button";
 
 const HomePage = () => {
   const promptSuggestions = [
@@ -45,10 +46,14 @@ const HomePage = () => {
               <span>⚡</span>
             </div>
           </div>
-          <button className="sidebar__new-chat-btn">
+          <Button className="sidebar__new-chat-btn">
             <Plus size={16} />
             <span>Start New Chat</span>
-          </button>
+          </Button>
+          {/* <button className="sidebar__new-chat-btn">
+            <Plus size={16} />
+            <span>Start New Chat</span>
+          </button> */}
         </div>
 
         {/* Navigation */}

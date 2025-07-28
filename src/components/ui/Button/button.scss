@@ -1,9 +1,5 @@
-@import "../../../assets/styles/mixins";
-@import "../../../assets/styles/variables";
-
-.btn {
-  @include button-base;
-}
+@use "../../../assets/styles/mixins" as *;
+@use "../../../assets/styles/variables" as *;
 
 .chat-input {
   &__action-btn {
@@ -31,19 +27,23 @@
 }
 
 .sidebar {
-  &__new-chat-btn {
+  &__new-chat-btn,
+  &__setting-btn {
+    @include button-base;
     width: 100%;
-    background-color: $color-tertiary;
     color: $color-text-primary;
+  }
+
+  &__new-chat-btn {
+    background-color: $color-tertiary;
 
     &:hover {
       background-color: $color-accent;
     }
   }
+
   &__setting-btn {
-    width: 100%;
     background-color: transparent;
-    color: $color-text-primary;
     margin-bottom: $spacing-md;
 
     &:hover {

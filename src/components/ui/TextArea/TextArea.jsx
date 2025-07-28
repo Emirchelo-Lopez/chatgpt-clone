@@ -1,4 +1,4 @@
-import "./TextArea.scss";
+// import "./TextArea.scss";
 
 const TextArea = ({ placeholder, className = "", rows = 1 }) => {
   return (
