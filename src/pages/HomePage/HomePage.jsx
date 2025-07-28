@@ -50,36 +50,32 @@ const HomePage = () => {
             <Plus size={16} />
             <span>Start New Chat</span>
           </Button>
-          {/* <button className="sidebar__new-chat-btn">
-            <Plus size={16} />
-            <span>Start New Chat</span>
-          </button> */}
         </div>
 
         {/* Navigation */}
         <div className="sidebar__nav">
           <nav className="sidebar__nav-list">
-            <button className="sidebar__nav-item">
+            <Button className="sidebar__nav-item">
               <Search size={16} />
               <span>Search</span>
-            </button>
-            <button className="sidebar__nav-item sidebar__nav-item--active">
+            </Button>
+            <Button className="sidebar__nav-item sidebar__nav-item--active">
               <Home size={16} />
               <span>Home</span>
-            </button>
-            <button className="sidebar__nav-item">
+            </Button>
+            <Button className="sidebar__nav-item">
               <MessageSquare size={16} />
               <span>Chat History</span>
-            </button>
+            </Button>
           </nav>
         </div>
 
         {/* Footer */}
         <div className="sidebar__footer">
-          <button className="sidebar__settings-btn">
+          <Button className="sidebar__settings-btn">
             <Settings size={16} />
             <span>Settings</span>
-          </button>
+          </Button>
 
           <div className="sidebar__profile">
             <div className="sidebar__profile-avatar">
@@ -131,15 +127,15 @@ const HomePage = () => {
                   className="chat-input__textarea"
                 />
                 <div className="chat-input__actions">
-                  <button className="chat-input__action-btn">
+                  <Button className="chat-input__action-btn">
                     <Paperclip size={20} />
-                  </button>
-                  <button className="chat-input__action-btn">
+                  </Button>
+                  <Button className="chat-input__action-btn">
                     <RotateCcw size={20} />
-                  </button>
-                  <button className="chat-input__action-btn chat-input__action-btn--send">
+                  </Button>
+                  <Button className="chat-input__action-btn chat-input__action-btn--send">
                     <Send size={20} />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

@@ -28,7 +28,7 @@
 
 .sidebar {
   &__new-chat-btn,
-  &__setting-btn {
+  &__settings-btn {
     @include button-base;
     width: 100%;
     color: $color-text-primary;
@@ -42,7 +42,7 @@
     }
   }
 
-  &__setting-btn {
+  &__settings-btn {
     background-color: transparent;
     margin-bottom: $spacing-md;
 
