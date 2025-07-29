@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import TextArea from "../../components/ui/TextArea/TextArea";
 import Button from "../../components/ui/Button/Button";
+import PromptCard from "../../components/ui/PromptCard/PromptCard";
 
 const HomePage = () => {
   const promptSuggestions = [
@@ -106,12 +107,11 @@ const HomePage = () => {
             {/* Prompt Suggestions Grid */}
             <div className="main-content__prompts-grid">
               {promptSuggestions.map((prompt, index) => (
-                <div key={index} className="prompt-card">
-                  <div className="prompt-card__content">
-                    {prompt.icon}
-                    <p className="prompt-card__text">{prompt.title}</p>
-                  </div>
-                </div>
+                <PromptCard
+                  index={index}
+                  icon={prompt.icon}
+                  title={prompt.title}
+                />
               ))}
             </div>
           </div>

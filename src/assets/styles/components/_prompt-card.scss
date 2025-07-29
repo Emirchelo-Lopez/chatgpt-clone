@@ -1,26 +1,26 @@
-@use "../variables" as *;
-@use "../mixins" as *;
+// @use "../variables" as *;
+// @use "../mixins" as *;
 
-.prompt-card {
-  @include card-base;
-  padding: $spacing-lg;
-  cursor: pointer;
+// .prompt-card {
+//   @include card-base;
+//   padding: $spacing-lg;
+//   cursor: pointer;
 
-  &__content {
-    @include flex-start;
-    gap: $spacing-lg;
-  }
+//   &__content {
+//     @include flex-start;
+//     gap: $spacing-lg;
+//   }
 
-  &__icon {
-    color: $color-text-muted;
-    margin-top: $spacing-xs;
-    flex-shrink: 0;
-  }
+//   &__icon {
+//     color: $color-text-muted;
+//     margin-top: $spacing-xs;
+//     flex-shrink: 0;
+//   }
 
-  &__text {
-    text-align: left;
-    color: $color-text-secondary;
-    font-size: $font-size-sm;
-    line-height: 1.5;
-  }
-}
+//   &__text {
+//     text-align: left;
+//     color: $color-text-secondary;
+//     font-size: $font-size-sm;
+//     line-height: 1.5;
+//   }
+// }
