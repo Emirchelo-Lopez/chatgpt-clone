@@ -1,24 +1,10 @@
-import {
-  Plus,
-  Search,
-  Home,
-  MessageSquare,
-  Settings,
-  Sparkles,
-  Mail,
-  FileText,
-  Share2,
-  Paperclip,
-  RotateCcw,
-  Send,
-} from "lucide-react";
-import TextArea from "../../components/ui/TextArea/TextArea";
-import Button from "../../components/ui/Button/Button";
+import { Sparkles, Mail, FileText, Share2 } from "lucide-react";
+
 import PromptCard from "../../components/ui/PromptCard/PromptCard";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
-import ProfileAvatar from "../../components/ui/ProfileAvatar/ProfileAvatar";
-import Profile from "../../components/ui/Profile/Profile";
+
+import "./home-page.scss";
 
 const HomePage = () => {
   const promptSuggestions = [
@@ -44,40 +30,6 @@ const HomePage = () => {
     <div className="chatgpt-clone">
       {/* Sidebar */}
       <Sidebar />
-      {/* <div className="sidebar">
-        {/* Header
-        <div className="sidebar__header">
-          <div className="sidebar__logo">
-            <div className="sidebar__logo-icon">
-              <span>⚡</span>
-            </div>
-          </div>
-          <Button className="sidebar__new-chat-btn">
-            <Plus size={16} />
-            <span>Start New Chat</span>
-          </Button>
-        </div>
-
-        {/* Navigation
-        <div className="sidebar__nav">
-          <nav className="sidebar__nav-list">
-            <Button className="sidebar__nav-item">
-              <MessageSquare size={16} />
-              <span>Chat History</span>
-            </Button>
-          </nav>
-        </div>
-
-        {/* Footer
-        <div className="sidebar__footer">
-          <Button className="sidebar__settings-btn">
-            <Settings size={16} />
-            <span>Settings</span>
-          </Button>
-
-          <Profile name="Emir" />
-        </div>
-      </div> */}
 
       {/* Main Content */}
       <div className="main-content">

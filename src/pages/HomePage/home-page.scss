@@ -1,0 +1,77 @@
+@use "../../assets/styles/variables" as *;
+@use "../../assets/styles/mixins" as *;
+
+.chatgpt-clone {
+  display: flex;
+  height: 100vh;
+  background-color: $color-primary;
+  color: $color-text-primary;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  &__welcome-section {
+    flex: 1;
+    @include flex-center;
+    flex-direction: column;
+    padding: 0 $spacing-xl;
+  }
+
+  &__welcome-container {
+    max-width: 48rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  &__welcome-title {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-lg;
+    @include gradient-text;
+  }
+
+  &__welcome-subtitle {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-lg;
+    @include gradient-text;
+  }
+
+  &__description {
+    color: $color-text-muted;
+    margin-bottom: $spacing-2xl;
+    font-size: $font-size-lg;
+    line-height: 1.6;
+  }
+
+  &__prompts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+    margin-bottom: $spacing-2xl;
+
+    @media (max-width: $breakpoint-mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__chat-input-section {
+    padding: $spacing-lg;
+  }
+
+  &__chat-input-container {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  &__footer-text {
+    text-align: center;
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+    margin-top: $spacing-lg;
+  }
+}
