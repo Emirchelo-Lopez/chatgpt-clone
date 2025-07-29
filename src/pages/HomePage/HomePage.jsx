@@ -16,6 +16,7 @@ import TextArea from "../../components/ui/TextArea/TextArea";
 import Button from "../../components/ui/Button/Button";
 import PromptCard from "../../components/ui/PromptCard/PromptCard";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
+import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import ProfileAvatar from "../../components/ui/ProfileAvatar/ProfileAvatar";
 import Profile from "../../components/ui/Profile/Profile";
 
@@ -42,8 +43,9 @@ const HomePage = () => {
   return (
     <div className="chatgpt-clone">
       {/* Sidebar */}
-      <div className="sidebar">
-        {/* Header */}
+      <Sidebar />
+      {/* <div className="sidebar">
+        {/* Header
         <div className="sidebar__header">
           <div className="sidebar__logo">
             <div className="sidebar__logo-icon">
@@ -56,7 +58,7 @@ const HomePage = () => {
           </Button>
         </div>
 
-        {/* Navigation */}
+        {/* Navigation
         <div className="sidebar__nav">
           <nav className="sidebar__nav-list">
             <Button className="sidebar__nav-item">
@@ -66,7 +68,7 @@ const HomePage = () => {
           </nav>
         </div>
 
-        {/* Footer */}
+        {/* Footer
         <div className="sidebar__footer">
           <Button className="sidebar__settings-btn">
             <Settings size={16} />
@@ -75,7 +77,7 @@ const HomePage = () => {
 
           <Profile name="Emir" />
         </div>
-      </div>
+      </div> */}
 
       {/* Main Content */}
       <div className="main-content">

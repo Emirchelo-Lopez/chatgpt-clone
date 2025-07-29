@@ -1,0 +1,47 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.sidebar {
+  width: $sidebar-width;
+  background-color: $color-secondary;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: $spacing-lg;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__logo {
+    @include flex-start;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__logo-icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: $color-button-primary;
+    border-radius: $border-radius-md;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    color: $color-button-primary-text;
+  }
+
+  &__nav {
+    flex: 1;
+    padding: $spacing-lg;
+  }
+
+  &__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__footer {
+    padding: $spacing-lg;
+    border-top: 1px solid $color-border;
+  }
+}
