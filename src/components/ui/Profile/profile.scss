@@ -1,0 +1,14 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.sidebar {
+  &__profile {
+    @include flex-start;
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
+  &__profile-name {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+  }
+}

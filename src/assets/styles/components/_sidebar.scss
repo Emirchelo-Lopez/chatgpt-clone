@@ -83,29 +83,29 @@
   //     }
   //   }
 
-  &__profile {
-    @include flex-start;
-    gap: $spacing-md;
-    padding: $spacing-md;
-  }
+  //   &__profile {
+  //     @include flex-start;
+  //     gap: $spacing-md;
+  //     padding: $spacing-md;
+  //   }
 
-  &__profile-avatar {
-    width: 2rem;
-    height: 2rem;
-    background: linear-gradient(
-      135deg,
-      $color-gradient-start,
-      $color-gradient-middle
-    );
-    border-radius: 50%;
-    @include flex-center;
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-sm;
-    color: $color-text-primary;
-  }
+  //   &__profile-avatar {
+  //     width: 2rem;
+  //     height: 2rem;
+  //     background: linear-gradient(
+  //       135deg,
+  //       $color-gradient-start,
+  //       $color-gradient-middle
+  //     );
+  //     border-radius: 50%;
+  //     @include flex-center;
+  //     font-weight: $font-weight-semibold;
+  //     font-size: $font-size-sm;
+  //     color: $color-text-primary;
+  //   }
 
-  &__profile-name {
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
-  }
+  //   &__profile-name {
+  //     font-size: $font-size-sm;
+  //     color: $color-text-secondary;
+  //   }
 }

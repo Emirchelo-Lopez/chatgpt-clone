@@ -1,0 +1,19 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.sidebar {
+  &__profile-avatar {
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(
+      135deg,
+      $color-gradient-start,
+      $color-gradient-middle
+    );
+    border-radius: 50%;
+    @include flex-center;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+  }
+}

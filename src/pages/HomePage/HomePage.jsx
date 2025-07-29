@@ -16,6 +16,8 @@ import TextArea from "../../components/ui/TextArea/TextArea";
 import Button from "../../components/ui/Button/Button";
 import PromptCard from "../../components/ui/PromptCard/PromptCard";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
+import ProfileAvatar from "../../components/ui/ProfileAvatar/ProfileAvatar";
+import Profile from "../../components/ui/Profile/Profile";
 
 const HomePage = () => {
   const promptSuggestions = [
@@ -58,14 +60,6 @@ const HomePage = () => {
         <div className="sidebar__nav">
           <nav className="sidebar__nav-list">
             <Button className="sidebar__nav-item">
-              <Search size={16} />
-              <span>Search</span>
-            </Button>
-            <Button className="sidebar__nav-item sidebar__nav-item--active">
-              <Home size={16} />
-              <span>Home</span>
-            </Button>
-            <Button className="sidebar__nav-item">
               <MessageSquare size={16} />
               <span>Chat History</span>
             </Button>
@@ -79,12 +73,7 @@ const HomePage = () => {
             <span>Settings</span>
           </Button>
 
-          <div className="sidebar__profile">
-            <div className="sidebar__profile-avatar">
-              <span>V</span>
-            </div>
-            <span className="sidebar__profile-name">Vamshi</span>
-          </div>
+          <Profile name="Emir" />
         </div>
       </div>
 
