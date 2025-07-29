@@ -15,6 +15,7 @@ import {
 import TextArea from "../../components/ui/TextArea/TextArea";
 import Button from "../../components/ui/Button/Button";
 import PromptCard from "../../components/ui/PromptCard/PromptCard";
+import ChatInput from "../../components/ui/ChatInput/ChatInput";
 
 const HomePage = () => {
   const promptSuggestions = [
@@ -108,7 +109,7 @@ const HomePage = () => {
             <div className="main-content__prompts-grid">
               {promptSuggestions.map((prompt, index) => (
                 <PromptCard
-                  index={index}
+                  key={index}
                   icon={prompt.icon}
                   title={prompt.title}
                 />
@@ -120,26 +121,7 @@ const HomePage = () => {
         {/* Chat Input */}
         <div className="main-content__chat-input-section">
           <div className="main-content__chat-input-container">
-            <div className="chat-input">
-              <div className="chat-input__container">
-                <TextArea
-                  placeholder="Message ChatGPT"
-                  className="chat-input__textarea"
-                />
-                <div className="chat-input__actions">
-                  <Button className="chat-input__action-btn">
-                    <Paperclip size={20} />
-                  </Button>
-                  <Button className="chat-input__action-btn">
-                    <RotateCcw size={20} />
-                  </Button>
-                  <Button className="chat-input__action-btn chat-input__action-btn--send">
-                    <Send size={20} />
-                  </Button>
-                </div>
-              </div>
-            </div>
-
+            <ChatInput placeholder="Message ChatGPT" />
             <p className="main-content__footer-text">
               ChatGPT can make mistakes. Check important info.
             </p>
