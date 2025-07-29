@@ -51,20 +51,20 @@
     gap: $spacing-sm;
   }
 
-  &__nav-item {
-    @include button-base;
-    width: 100%;
-    background-color: transparent;
-    color: $color-text-primary;
+  //   &__nav-item {
+  //     @include button-base;
+  //     width: 100%;
+  //     background-color: transparent;
+  //     color: $color-text-primary;
 
-    &:hover {
-      background-color: $color-tertiary;
-    }
+  //     &:hover {
+  //       background-color: $color-tertiary;
+  //     }
 
-    &--active {
-      background-color: $color-tertiary;
-    }
-  }
+  //     &--active {
+  //       background-color: $color-tertiary;
+  //     }
+  //   }
 
   &__footer {
     padding: $spacing-lg;

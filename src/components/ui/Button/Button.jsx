@@ -1,4 +1,4 @@
-import "./button.scss"; // We'll create this next
+import "./button.scss";
 
 const Button = ({
   children,

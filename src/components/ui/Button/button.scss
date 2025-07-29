@@ -28,6 +28,7 @@
 
 .sidebar {
   &__new-chat-btn,
+  &__nav-item,
   &__settings-btn {
     @include button-base;
     width: 100%;
@@ -47,6 +48,18 @@
     margin-bottom: $spacing-md;
 
     &:hover {
+      background-color: $color-tertiary;
+    }
+  }
+
+  &__nav-item {
+    background-color: transparent;
+
+    &:hover {
+      background-color: $color-tertiary;
+    }
+
+    &--active {
       background-color: $color-tertiary;
     }
   }
