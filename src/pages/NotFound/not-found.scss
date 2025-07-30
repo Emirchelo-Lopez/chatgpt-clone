@@ -1,0 +1,132 @@
+@use "../../assets/styles/variables" as *;
+@use "../../assets/styles/mixins" as *;
+
+.error-page {
+  min-height: 100vh;
+  background-color: $color-primary;
+  @include flex-center;
+  padding: $spacing-lg;
+
+  &__container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  &__logo {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__logo-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: $color-button-primary;
+    border-radius: $border-radius-lg;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    color: $color-button-primary-text;
+    margin: 0 auto $spacing-md;
+  }
+
+  &__logo-text {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.error-content {
+  &__illustration {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__text {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__description {
+    font-size: $font-size-lg;
+    color: $color-text-muted;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  &__actions {
+    @include flex-center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-2xl;
+    flex-wrap: wrap;
+  }
+
+  &__suggestions {
+    text-align: left;
+  }
+
+  &__suggestions-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+  }
+}
+
+.error-illustration {
+  &__circle {
+    width: 8rem;
+    height: 8rem;
+    background: linear-gradient(
+      135deg,
+      $color-gradient-start,
+      $color-gradient-middle
+    );
+    border-radius: 50%;
+    @include flex-center;
+    margin: 0 auto;
+  }
+
+  &__text {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: white;
+  }
+}
+
+.error-btn {
+  @include button-base;
+  padding: $spacing-md $spacing-lg;
+
+  &--primary {
+    background: linear-gradient(
+      135deg,
+      $color-gradient-start,
+      $color-gradient-middle
+    );
+    color: white;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($color-gradient-start, 0.3);
+    }
+  }
+
+  &--secondary {
+    background-color: $color-tertiary;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+
+    &:hover {
+      background-color: $color-accent;
+      border-color: $color-border-hover;
+    }
+  }
+}

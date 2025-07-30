@@ -50,6 +50,10 @@
     &:hover {
       background-color: $color-tertiary;
     }
+
+    &--active {
+      background-color: $color-tertiary;
+    }
   }
 
   &__nav-item {
