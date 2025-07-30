@@ -1,14 +1,7 @@
-import {
-  Plus,
-  Search,
-  Home,
-  MessageSquare,
-  Settings,
-  MoreHorizontal,
-} from "lucide-react";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
 import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
+import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import "./chat-page.scss";
 
 export default function ChatPage() {
@@ -173,75 +166,7 @@ export default function ChatPage() {
   return (
     <div className="chatgpt-clone">
       {/* Sidebar */}
-      <div className="sidebar">
-        {/* Header */}
-        <div className="sidebar__header">
-          <div className="sidebar__logo">
-            <div className="sidebar__logo-icon">
-              <span>⚡</span>
-            </div>
-          </div>
-          <button className="sidebar__new-chat-btn">
-            <Plus size={16} />
-            <span>Start New Chat</span>
-          </button>
-        </div>
-
-        {/* Navigation */}
-        <div className="sidebar__nav">
-          <nav className="sidebar__nav-list">
-            <button className="sidebar__nav-item">
-              <Search size={16} />
-              <span>Search</span>
-            </button>
-            <button className="sidebar__nav-item">
-              <Home size={16} />
-              <span>Home</span>
-            </button>
-            <button className="sidebar__nav-item sidebar__nav-item--active">
-              <MessageSquare size={16} />
-              <span>Chat History</span>
-            </button>
-          </nav>
-        </div>
-
-        {/* Chat History */}
-        <div className="sidebar__chat-history">
-          <div className="sidebar__chat-history-header">
-            <span className="sidebar__chat-history-title">Recent Chats</span>
-          </div>
-          <div className="sidebar__chat-history-list">
-            {chatHistory.map((chat) => (
-              <div
-                key={chat.id}
-                className={`sidebar__chat-item ${
-                  chat.isActive ? "sidebar__chat-item--active" : ""
-                }`}
-              >
-                <span className="sidebar__chat-item-title">{chat.title}</span>
-                <button className="sidebar__chat-item-menu">
-                  <MoreHorizontal size={14} />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="sidebar__footer">
-          <button className="sidebar__settings-btn">
-            <Settings size={16} />
-            <span>Settings</span>
-          </button>
-
-          <div className="sidebar__profile">
-            <div className="sidebar__profile-avatar">
-              <span>V</span>
-            </div>
-            <span className="sidebar__profile-name">Vamshi</span>
-          </div>
-        </div>
-      </div>
+      <Sidebar chatHistory={chatHistory} />
 
       {/* Main Content */}
       <div className="main-content">

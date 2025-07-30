@@ -49,14 +49,13 @@
 
   &__chat-history {
     flex: 1;
-    padding: 0 $spacing-lg;
+    padding: 0 $spacing-md;
     overflow-y: auto;
   }
 
   &__chat-history-header {
     padding: $spacing-md 0;
-    border-bottom: 1px solid $color-border;
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-xs;
   }
 
   &__chat-history-title {
@@ -75,11 +74,10 @@
 
   &__chat-item {
     @include flex-between;
-    padding: $spacing-sm $spacing-md;
+    padding: $spacing-md $spacing-md;
     border-radius: $border-radius-md;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    // group: chat-item;
 
     &:hover {
       background-color: $color-tertiary;

@@ -3,7 +3,7 @@ import Button from "../Button/Button";
 import "./sidebar.scss";
 import Profile from "../Profile/Profile";
 
-const Sidebar = () => {
+const Sidebar = ({ chatHistory }) => {
   return (
     <div className="sidebar">
       {/* Header */}
@@ -19,15 +19,33 @@ const Sidebar = () => {
         </Button>
       </div>
 
+      {/* Chat History */}
+      <div className="sidebar__chat-history">
+        <div className="sidebar__chat-history-header"></div>
+        <div className="sidebar__chat-history-list">
+          {chatHistory &&
+            chatHistory.map((chat) => (
+              <div
+                key={chat.id}
+                className={`sidebar__chat-item ${
+                  chat.isActive ? "sidebar__chat-item--active" : ""
+                }`}
+              >
+                <span className="sidebar__chat-item-title">{chat.title}</span>
+              </div>
+            ))}
+        </div>
+      </div>
+
       {/* Navigation */}
-      <div className="sidebar__nav">
+      {/* <div className="sidebar__nav">
         <nav className="sidebar__nav-list">
           <Button className="sidebar__nav-item">
             <MessageSquare size={16} />
             <span>Chat History</span>
           </Button>
         </nav>
-      </div>
+      </div> */}
 
       {/* Footer */}
       <div className="sidebar__footer">
