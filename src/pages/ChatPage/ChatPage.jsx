@@ -178,7 +178,7 @@ export default function ChatPage() {
           <div className="chat-messages__container">
             {messages.map((message) => (
               <ChatMessage
-                id={message.id}
+                key={message.id}
                 role={message.role}
                 name="Emir"
                 timestamp={message.timestamp}

@@ -5,8 +5,8 @@ import ChatPage from "./pages/ChatPage/ChatPage";
 const App = () => {
   return (
     <>
-      <HomePage />
-      {/* <ChatPage /> */}
+      {/* <HomePage /> */}
+      <ChatPage />
     </>
   );
 };
