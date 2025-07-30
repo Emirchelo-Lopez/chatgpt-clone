@@ -44,4 +44,79 @@
     padding: $spacing-lg;
     border-top: 1px solid $color-border;
   }
+
+  // Conversation Chat Page Styles
+
+  &__chat-history {
+    flex: 1;
+    padding: 0 $spacing-lg;
+    overflow-y: auto;
+  }
+
+  &__chat-history-header {
+    padding: $spacing-md 0;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: $spacing-md;
+  }
+
+  &__chat-history-title {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.05em;
+  }
+
+  &__chat-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__chat-item {
+    @include flex-between;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    // group: chat-item;
+
+    &:hover {
+      background-color: $color-tertiary;
+
+      .sidebar__chat-item-menu {
+        opacity: 1;
+      }
+    }
+
+    &--active {
+      background-color: $color-tertiary;
+    }
+  }
+
+  &__chat-item-title {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__chat-item-menu {
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    opacity: 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $color-accent;
+      color: $color-text-primary;
+    }
+  }
 }

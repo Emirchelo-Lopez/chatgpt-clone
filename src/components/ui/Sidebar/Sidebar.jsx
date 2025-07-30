@@ -36,7 +36,7 @@ const Sidebar = () => {
           <span>Settings</span>
         </Button>
 
-        <Profile name="Emir" />
+        <Profile name="Emir" className="sidebar__profile-avatar" />
       </div>
     </div>
   );

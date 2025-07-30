@@ -1,12 +1,10 @@
 import "./profile.scss";
 import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
 
-const Profile = ({ name }) => {
-  const initial = name ? name.charAt(0).toUpperCase() : "";
-
+const Profile = ({ name, className }) => {
   return (
     <div className="sidebar__profile">
-      <ProfileAvatar initial={initial} />
+      <ProfileAvatar name={name} className={className} />
       <span className="sidebar__profile-name">{name}</span>
     </div>
   );

@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "mixins" as *;
+@use "components/chat-messages";
 
 // Global styles
 * {
