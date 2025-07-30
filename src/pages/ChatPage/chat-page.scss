@@ -1,0 +1,14 @@
+@use "../../assets/styles/variables" as *;
+@use "../../assets/styles/mixins" as *;
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-xl 0;
+
+  &__container {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 $spacing-xl;
+  }
+}

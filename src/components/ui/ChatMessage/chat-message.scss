@@ -1,0 +1,67 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.message {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+
+  &--user {
+    .message__content {
+      background-color: $color-secondary;
+      border-radius: $border-radius-lg;
+      padding: $spacing-lg;
+    }
+  }
+  &--assistant {
+    .message__text {
+      line-height: 1.7;
+    }
+  }
+  &__text {
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+    line-height: 1.6;
+
+    p {
+      margin-bottom: $spacing-md;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: $color-text-primary;
+      font-weight: $font-weight-semibold;
+    }
+
+    code {
+      background-color: $color-tertiary;
+      color: $color-text-primary;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-sm;
+      font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background-color: $color-secondary;
+      border: 1px solid $color-border;
+      border-radius: $border-radius-md;
+      padding: $spacing-lg;
+      margin: $spacing-md 0;
+      overflow-x: auto;
+
+      code {
+        background: none;
+        padding: 0;
+        color: $color-text-secondary;
+      }
+    }
+  }
+
+  &:hover &__actions {
+    opacity: 1;
+  }
+}

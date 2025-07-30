@@ -5,21 +5,13 @@ import {
   MessageSquare,
   Settings,
   MoreHorizontal,
-  Copy,
-  ThumbsUp,
-  ThumbsDown,
-  RotateCcw,
-  Share,
-  Paperclip,
-  Send,
 } from "lucide-react";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
-import Button from "../../components/ui/Button/Button";
-import Profile from "../../components/ui/Profile/Profile";
-import ProfileAvatar from "../../components/ui/ProfileAvatar/ProfileAvatar";
+import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
+import "./chat-page.scss";
 
-export default function ChatConversation() {
+export default function ChatPage() {
   const chatHistory = [
     {
       id: 1,
@@ -260,73 +252,13 @@ export default function ChatConversation() {
         <div className="chat-messages">
           <div className="chat-messages__container">
             {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`message message--${message.role}`}
-              >
-                <div className="message__avatar">
-                  {message.role === "user" ? (
-                    <ProfileAvatar
-                      name="Emir"
-                      className="message__avatar-user"
-                    />
-                  ) : (
-                    <ProfileAvatar name="⚡" className="message__avatar-ai" />
-                  )}
-                </div>
-                <div className="message__content">
-                  <div className="message__header">
-                    <span className="message__sender">
-                      {message.role === "user" ? "You" : "ChatGPT"}
-                    </span>
-                    <span className="message__timestamp">
-                      {message.timestamp}
-                    </span>
-                  </div>
-                  <div className="message__text">
-                    {message.content.split("\n").map((line, index) => {
-                      if (line.startsWith("```")) {
-                        return null; // Handle code blocks separately if needed
-                      }
-                      if (line.startsWith("**") && line.endsWith("**")) {
-                        return (
-                          <strong key={index} className="message__text-bold">
-                            {line.slice(2, -2)}
-                          </strong>
-                        );
-                      }
-                      if (line.startsWith("`") && line.endsWith("`")) {
-                        return (
-                          <code key={index} className="message__text-code">
-                            {line.slice(1, -1)}
-                          </code>
-                        );
-                      }
-                      return line ? (
-                        <p key={index}>{line}</p>
-                      ) : (
-                        <br key={index} />
-                      );
-                    })}
-                  </div>
-                  {message.role === "assistant" && (
-                    <div className="message__actions">
-                      <Button className="message__action-btn">
-                        <Copy size={16} />
-                      </Button>
-                      <Button className="message__action-btn">
-                        <ThumbsUp size={16} />
-                      </Button>
-                      <Button className="message__action-btn">
-                        <ThumbsDown size={16} />
-                      </Button>
-                      <Button className="message__action-btn">
-                        <RotateCcw size={16} />
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <ChatMessage
+                id={message.id}
+                role={message.role}
+                name="Emir"
+                timestamp={message.timestamp}
+                content={message.content}
+              />
             ))}
           </div>
         </div>
