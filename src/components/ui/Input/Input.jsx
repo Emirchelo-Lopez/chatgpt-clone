@@ -1,6 +1,15 @@
 import "./input.scss";
 
-const Input = ({ type, className, value, placeholder, readOnly, required }) => {
+const Input = ({
+  type,
+  className,
+  value,
+  placeholder,
+  readOnly,
+  required,
+  name,
+  onChange,
+}) => {
   return (
     <input
       type={type}
@@ -9,6 +18,8 @@ const Input = ({ type, className, value, placeholder, readOnly, required }) => {
       placeholder={placeholder}
       readOnly={readOnly}
       required={required}
+      name={name}
+      onChange={onChange}
     />
   );
 };

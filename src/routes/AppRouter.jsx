@@ -6,6 +6,7 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import SettingsPage from "../pages/SettingsPage/SettingsPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRouter = () => {
   return (
@@ -15,8 +16,10 @@ const AppRouter = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route element={ProtectedRoute}>
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

@@ -3,8 +3,34 @@ import Button from "../../components/ui/Button/Button";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import "./settings-page.scss";
 import FormField from "../../components/ui/FormField/FormField";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getMeUserService } from "../../api/userService";
 
 const SettingsPage = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await getMeUserService();
+        setUserData(data);
+      } catch (error) {
+        console.error("Error at fetching user data", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className="chatgpt-clone">
       {/* Sidebar */}
@@ -37,7 +63,11 @@ const SettingsPage = () => {
               </h3>
               <div className="profile-picture">
                 <div className="profile-picture__avatar">
-                  <span>V</span>
+                  <span>
+                    {userData.first_name
+                      ? userData.first_name.charAt(0).toUpperCase()
+                      : ""}
+                  </span>
                 </div>
               </div>
             </div>
@@ -52,14 +82,14 @@ const SettingsPage = () => {
                   label="Full Name"
                   type="text"
                   className="form-field__input"
-                  value="Emir López"
+                  value={`${userData.first_name} ${userData.last_name}`}
                   readOnly
                 />
                 <FormField
                   label="Email Address"
                   type="email"
                   className="form-field__input"
-                  value="emir.lopez@example.com"
+                  value={userData.email}
                   readOnly
                 />
               </div>
@@ -71,7 +101,10 @@ const SettingsPage = () => {
                 Account Actions
               </h3>
               <div className="account-actions">
-                <Button className="account-actions__btn account-actions__btn--danger">
+                <Button
+                  onClick={handleLogout}
+                  className="account-actions__btn account-actions__btn--danger"
+                >
                   <LogOut size={16} />
                   <span>Log Out</span>
                 </Button>

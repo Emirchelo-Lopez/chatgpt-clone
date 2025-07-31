@@ -15,4 +15,9 @@
     color: $color-text-muted;
     margin-top: $spacing-sm;
   }
+  &__error {
+    color: $color-error; // A red color for errors
+    font-size: $font-size-sm;
+    margin-top: $spacing-sm;
+  }
 }

@@ -9,11 +9,13 @@ const FormField = ({
   placeholder,
   readOnly,
   required,
+  name,
+  onChange,
+  error,
 }) => {
   return (
     <div className="form-field">
       <label className="form-field__label">{label}</label>
-
       <Input
         type={type}
         className={className}
@@ -21,7 +23,10 @@ const FormField = ({
         placeholder={placeholder}
         readOnly={readOnly}
         required={required}
+        name={name}
+        onChange={onChange}
       />
+      {error && <p className="form-field__error">{error}</p>}
     </div>
   );
 };

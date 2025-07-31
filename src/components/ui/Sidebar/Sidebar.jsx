@@ -1,9 +1,13 @@
-import { MessageSquare, Plus, Settings, User, LogOut } from "lucide-react";
+import { Plus, Settings } from "lucide-react";
 import Button from "../Button/Button";
 import "./sidebar.scss";
 import Profile from "../Profile/Profile";
+import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ chatHistory }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   return (
     <div className="sidebar">
       {/* Header */}
@@ -13,7 +17,10 @@ const Sidebar = ({ chatHistory }) => {
             <span>⚡</span>
           </div>
         </div>
-        <Button className="sidebar__new-chat-btn">
+        <Button
+          onClick={() => navigate("/chat")}
+          className="sidebar__new-chat-btn"
+        >
           <Plus size={16} />
           <span>Start New Chat</span>
         </Button>
@@ -40,7 +47,7 @@ const Sidebar = ({ chatHistory }) => {
       {/* Navigation */}
       {/* <div className="sidebar__nav">
         <nav className="sidebar__nav-list">
-          <Button className="sidebar__nav-item">
+          <Button onClick={() => navigate("/chat") className="sidebar__nav-item">
             <MessageSquare size={16} />
             <span>Chat History</span>
           </Button>
@@ -54,7 +61,10 @@ const Sidebar = ({ chatHistory }) => {
           <span>Settings</span>
         </Button>
 
-        <Profile name="Emir" className="sidebar__profile-avatar" />
+        <Profile
+          name={user.first_name || "User"}
+          className="sidebar__profile-avatar"
+        />
       </div>
     </div>
   );
