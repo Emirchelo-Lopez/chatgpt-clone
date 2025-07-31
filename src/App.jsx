@@ -10,7 +10,7 @@ const App = () => {
       {/* <HomePage /> */}
       {/* <ChatPage /> */}
       {/* <NotFoundPage /> */}
-      <LandingPage />
+      {/* <LandingPage /> */}
     </>
   );
 };

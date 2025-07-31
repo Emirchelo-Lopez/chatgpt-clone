@@ -1,118 +1,86 @@
-import {
-  ArrowRight,
-  Sparkles,
-  Zap,
-  Shield,
-  Users,
-  MessageSquare,
-  Star,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Button from "../../components/ui/Button/Button";
+import Navbar from "../../components/ui/Navbar/Navbar";
 import "./landing-page.scss";
 
 const LandingPage = () => {
   return (
     <div className="welcome-page">
       {/* Navbar */}
-      <nav className="welcome-navbar">
-        <div className="welcome-navbar__container">
-          <div className="welcome-navbar__logo">
-            <div className="welcome-navbar__logo-icon">
-              <span>⚡</span>
-            </div>
-            <span className="welcome-navbar__logo-text">ChatGPT</span>
-          </div>
-          <div className="welcome-navbar__nav">
-            <a href="#features" className="welcome-navbar__link">
-              Features
-            </a>
-            <a href="#testimonials" className="welcome-navbar__link">
-              Testimonials
-            </a>
-            <a href="#" className="welcome-navbar__link">
-              Log In
-            </a>
-            <a
-              href="#"
-              className="welcome-navbar__link welcome-navbar__link--primary"
-            >
-              Sign Up
-            </a>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="hero">
-        <div className="hero__container">
-          <div className="hero__content">
-            <h1 className="hero__title">
-              <span className="hero__title-gradient">Unlock the Power</span>
-              <br />
-              of AI Conversations
-            </h1>
-            <p className="hero__description">
-              Experience the future of AI with ChatGPT. Get instant answers,
-              creative inspiration, and intelligent assistance for any task.
-              Join millions of users who are already transforming their
-              productivity.
-            </p>
-            <div className="hero__actions">
-              <Button className="hero__cta-btn">
-                <span>Get Started Free</span>
-                <ArrowRight size={20} />
-              </Button>
-            </div>
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <span className="hero__stat-number">100M+</span>
-                <span className="hero__stat-label">Active Users</span>
+      <main className="welcome-page__main-content">
+        <section className="hero">
+          <div className="hero__container">
+            <div className="hero__content">
+              <h1 className="hero__title">
+                <span className="hero__title-gradient">Unlock the Power</span>
+                <br />
+                of AI Conversations
+              </h1>
+              <p className="hero__description">
+                Experience the future of AI with ChatGPT. Get instant answers,
+                creative inspiration, and intelligent assistance for any task.
+                Join millions of users who are already transforming their
+                productivity.
+              </p>
+              <div className="hero__actions">
+                <Button className="hero__cta-btn">
+                  <span>Get Started Free</span>
+                  <ArrowRight size={20} />
+                </Button>
               </div>
-              <div className="hero__stat">
-                <span className="hero__stat-number">1B+</span>
-                <span className="hero__stat-label">Conversations</span>
-              </div>
-              <div className="hero__stat">
-                <span className="hero__stat-number">99.9%</span>
-                <span className="hero__stat-label">Uptime</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero__visual">
-            <div className="hero__chat-preview">
-              <div className="chat-preview">
-                <div className="chat-preview__header">
-                  <div className="chat-preview__dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <span className="chat-preview__title">ChatGPT</span>
+              <div className="hero__stats">
+                <div className="hero__stat">
+                  <span className="hero__stat-number">100M+</span>
+                  <span className="hero__stat-label">Active Users</span>
                 </div>
-                <div className="chat-preview__messages">
-                  <div className="chat-preview__message chat-preview__message--user">
-                    <span>How can I improve my productivity?</span>
+                <div className="hero__stat">
+                  <span className="hero__stat-number">1B+</span>
+                  <span className="hero__stat-label">Conversations</span>
+                </div>
+                <div className="hero__stat">
+                  <span className="hero__stat-number">99.9%</span>
+                  <span className="hero__stat-label">Uptime</span>
+                </div>
+              </div>
+            </div>
+            <div className="hero__visual">
+              <div className="hero__chat-preview">
+                <div className="chat-preview">
+                  <div className="chat-preview__header">
+                    <div className="chat-preview__dots">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <span className="chat-preview__title">ChatGPT</span>
                   </div>
-                  <div className="chat-preview__message chat-preview__message--ai">
-                    <span>
-                      Here are some proven strategies to boost your
-                      productivity...
-                    </span>
-                  </div>
-                  <div className="chat-preview__typing">
-                    <div className="typing-indicator">
-                      <span></span>
-                      <span></span>
-                      <span></span>
+                  <div className="chat-preview__messages">
+                    <div className="chat-preview__message chat-preview__message--user">
+                      <span>How can I improve my productivity?</span>
+                    </div>
+                    <div className="chat-preview__message chat-preview__message--ai">
+                      <span>
+                        Here are some proven strategies to boost your
+                        productivity...
+                      </span>
+                    </div>
+                    <div className="chat-preview__typing">
+                      <div className="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      </main>
       {/* Footer */}
       <footer className="welcome-footer">
         <div className="welcome-footer__container">
