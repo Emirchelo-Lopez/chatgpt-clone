@@ -1,13 +1,31 @@
+import { useState, useEffect } from "react";
 import { Plus, Settings } from "lucide-react";
 import Button from "../Button/Button";
 import "./sidebar.scss";
 import Profile from "../Profile/Profile";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { getMeUserService } from "../../../api/userService";
 
 const Sidebar = ({ chatHistory }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        try {
+          const data = await getMeUserService();
+          setUserData(data);
+        } catch (error) {
+          console.error("Failed to fetch user data for sidebar", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [user]);
+
   return (
     <div className="sidebar">
       {/* Header */}
@@ -56,13 +74,16 @@ const Sidebar = ({ chatHistory }) => {
 
       {/* Footer */}
       <div className="sidebar__footer">
-        <Button className="sidebar__settings-btn">
+        <Button
+          onClick={() => navigate("/settings")}
+          className="sidebar__settings-btn"
+        >
           <Settings size={16} />
           <span>Settings</span>
         </Button>
 
         <Profile
-          name={user.first_name || "User"}
+          name={userData?.first_name || user?.first_name || "User"}
           className="sidebar__profile-avatar"
         />
       </div>

@@ -12,6 +12,7 @@ const SettingsPage = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,6 +21,8 @@ const SettingsPage = () => {
         setUserData(data);
       } catch (error) {
         console.error("Error at fetching user data", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -30,6 +33,10 @@ const SettingsPage = () => {
     logout();
     navigate("/login");
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="chatgpt-clone">
@@ -63,11 +70,7 @@ const SettingsPage = () => {
               </h3>
               <div className="profile-picture">
                 <div className="profile-picture__avatar">
-                  <span>
-                    {userData.first_name
-                      ? userData.first_name.charAt(0).toUpperCase()
-                      : ""}
-                  </span>
+                  <span>{userData?.first_name?.charAt(0).toUpperCase()}</span>
                 </div>
               </div>
             </div>
@@ -82,14 +85,16 @@ const SettingsPage = () => {
                   label="Full Name"
                   type="text"
                   className="form-field__input"
-                  value={`${userData.first_name} ${userData.last_name}`}
+                  value={`${userData?.first_name || ""} ${
+                    userData?.last_name || ""
+                  }`}
                   readOnly
                 />
                 <FormField
                   label="Email Address"
                   type="email"
                   className="form-field__input"
-                  value={userData.email}
+                  value={userData?.email || ""}
                   readOnly
                 />
               </div>
