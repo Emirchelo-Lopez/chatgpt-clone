@@ -8,8 +8,8 @@ import Navbar from "../../components/ui/Navbar/Navbar";
 const SignupPage = () => {
   return (
     <div className="auth-page">
+      <Navbar />
       <div className="auth-page__container">
-        <Navbar />
         {/* Signup Form */}
         <div className="auth-form">
           <div className="auth-form__header">
@@ -58,7 +58,7 @@ const SignupPage = () => {
           <div className="auth-form__footer">
             <p>
               Already have an account?{" "}
-              <NavLink href="/login" className="auth-form__link">
+              <NavLink to="/login" className="auth-form__link">
                 Log in
               </NavLink>
             </p>

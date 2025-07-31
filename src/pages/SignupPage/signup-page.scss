@@ -6,10 +6,10 @@
   background-color: $color-primary;
   @include flex-start;
   padding: 0;
+  flex-direction: column;
 
   &__container {
     display: flex;
-    flex-direction: column;
     flex: 1;
     width: 100%;
     max-width: 400px;

@@ -1,4 +1,3 @@
-import { Home, ArrowLeft, Search, MessageSquare } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import "./navbar.scss";
 
@@ -24,7 +23,10 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/signup" className="navbar__link--primary">
+            <NavLink
+              to="/signup"
+              className="navbar__link navbar__link--primary"
+            >
               Sign Up
             </NavLink>
           </li>

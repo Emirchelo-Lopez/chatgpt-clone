@@ -44,7 +44,7 @@ const LoginPage = () => {
           <div className="auth-form__footer">
             <p>
               Don't have an account?{" "}
-              <NavLink href="/signup" className="auth-form__link">
+              <NavLink to="/signup" className="auth-form__link">
                 Sign up
               </NavLink>
             </p>
