@@ -3,7 +3,7 @@ import Button from "../../ui/Button/Button";
 import TextArea from "../../ui/TextArea/TextArea";
 import "./chat-input.scss";
 
-const ChatInput = ({ value, onChange, onSend, placeholder }) => {
+const ChatInput = ({ value, onChange, onSend, placeholder, onNewChat }) => {
   // Function to handle Enter key press for sending the message
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -26,7 +26,7 @@ const ChatInput = ({ value, onChange, onSend, placeholder }) => {
           <Button className="chat-input__action-btn">
             <Paperclip size={20} />
           </Button>
-          <Button className="chat-input__action-btn">
+          <Button onClick={onNewChat} className="chat-input__action-btn">
             <RotateCcw size={20} />
           </Button>
           <Button

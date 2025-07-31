@@ -3,7 +3,7 @@ import Button from "../Button/Button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
-const MessageContent = ({ role, timestamp, content }) => {
+const MessageContent = ({ role, timestamp, content, onNewChat }) => {
   return (
     <div className="message__content">
       <div className="message__header">
@@ -99,7 +99,7 @@ const MessageContent = ({ role, timestamp, content }) => {
           <Button className="message__action-btn">
             <ThumbsDown size={16} />
           </Button>
-          <Button className="message__action-btn">
+          <Button onClick={onNewChat} className="message__action-btn">
             <RotateCcw size={16} />
           </Button>
         </div>

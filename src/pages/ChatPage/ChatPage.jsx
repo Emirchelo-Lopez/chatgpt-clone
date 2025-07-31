@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
 import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
@@ -14,16 +14,23 @@ export default function ChatPage() {
   //   ];
 
   // State for messages, input, and loading status
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem("chatMessages");
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("chatMessages", JSON.stringify(messages));
+  }, [messages]);
 
   // Function to handle sending a message
   const handleSendMessage = async () => {
     if (!userInput.trim()) return; // Don't send empty messages
 
     const userMessage = {
-      id: messages.length + 1,
+      id: `user-${Date.now()}`,
       role: "user",
       content: userInput,
       timestamp: new Date().toLocaleTimeString([], {
@@ -33,13 +40,14 @@ export default function ChatPage() {
     };
 
     // Add user message to the chat and show loading state
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
     const currentInput = userInput;
     setUserInput(""); // Clear the input field
 
     // Prepare history for the API call, mapping "assistant" to "model".
-    const apiHistory = messages.map((msg) => ({
+    const apiHistory = updatedMessages.map((msg) => ({
       // If the role is 'assistant', change it to 'model' for the API. Otherwise, keep it.
       role: msg.role === "assistant" ? "model" : msg.role,
       parts: [{ text: msg.content }],
@@ -49,7 +57,7 @@ export default function ChatPage() {
     const botResponseContent = await generateResponse(currentInput, apiHistory);
 
     const botMessage = {
-      id: messages.length + 2,
+      id: `bot-${Date.now()}`,
       role: "assistant",
       content: botResponseContent,
       timestamp: new Date().toLocaleTimeString([], {
@@ -59,8 +67,13 @@ export default function ChatPage() {
     };
 
     // Add AI response to the chat and hide loading state
-    setMessages((prev) => [...prev, botMessage]);
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
     setIsLoading(false);
+  };
+
+  const handleNewChat = () => {
+    setMessages([]);
+    localStorage.removeItem("chatMessages");
   };
 
   return (
@@ -77,6 +90,7 @@ export default function ChatPage() {
                 name="Emir" // You can make this dynamic
                 timestamp={message.timestamp}
                 content={message.content}
+                onNewChat={handleNewChat}
               />
             ))}
             {isLoading && (
@@ -91,6 +105,7 @@ export default function ChatPage() {
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               onSend={handleSendMessage}
+              onNewChat={handleNewChat}
             />
             <p className="main-content__footer-text">
               ChatGPT can make mistakes. Check important info.
