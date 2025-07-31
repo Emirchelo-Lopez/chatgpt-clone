@@ -1,7 +1,7 @@
 @use "../../../assets/styles/variables" as *;
 @use "../../../assets/styles/mixins" as *;
 
-.error-navbar {
+.navbar {
   width: 100%;
   background-color: $color-secondary;
   border-bottom: 1px solid $color-border;

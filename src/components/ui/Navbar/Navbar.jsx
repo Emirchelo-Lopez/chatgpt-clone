@@ -1,30 +1,34 @@
 import { Home, ArrowLeft, Search, MessageSquare } from "lucide-react";
+import { NavLink } from "react-router-dom";
 import "./navbar.scss";
 
 const Navbar = () => {
   return (
-    <nav className="error-navbar">
-      <div className="error-navbar__container">
-        <div className="error-navbar__logo">
-          <div className="error-navbar__logo-icon">
+    <nav className="navbar">
+      <div className="navbar__container">
+        <div className="navbar__logo">
+          <div className="navbar__logo-icon">
             <span>⚡</span>
           </div>
-          <span className="error-navbar__logo-text">ChatGPT</span>
+          <span className="navbar__logo-text">ChatGPT</span>
         </div>
-        <div className="error-navbar__nav">
-          <a href="#" className="error-navbar__link">
-            Home
-          </a>
-          <a href="#" className="error-navbar__link">
-            Log In
-          </a>
-          <a
-            href="#"
-            className="error-navbar__link error-navbar__link--primary"
-          >
-            Sign Up
-          </a>
-        </div>
+        <ul className="navbar__nav">
+          <li>
+            <NavLink to="/" className="navbar__link" end>
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/login" className="navbar__link">
+              Login
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/signup" className="navbar__link">
+              Sign Up
+            </NavLink>
+          </li>
+        </ul>
       </div>
     </nav>
   );
