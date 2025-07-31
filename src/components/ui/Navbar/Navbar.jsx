@@ -24,7 +24,7 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/signup" className="navbar__link">
+            <NavLink to="/signup" className="navbar__link--primary">
               Sign Up
             </NavLink>
           </li>

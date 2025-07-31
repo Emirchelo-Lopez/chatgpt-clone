@@ -2,8 +2,11 @@ import { Home, ArrowLeft, Search, MessageSquare } from "lucide-react";
 import "./not-found.scss";
 import Button from "../../components/ui/Button/Button";
 import Navbar from "../../components/ui/Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="error-page">
       <Navbar />
@@ -27,11 +30,17 @@ const NotFoundPage = () => {
           </div>
 
           <div className="error-content__actions">
-            <Button className="error-btn error-btn--primary">
+            <Button
+              onClick={() => navigate(-1)}
+              className="error-btn error-btn--primary"
+            >
               <ArrowLeft size={18} />
               <span>Go Back</span>
             </Button>
-            <Button className="error-btn error-btn--secondary">
+            <Button
+              onClick={() => navigate("/")}
+              className="error-btn error-btn--secondary"
+            >
               <Home size={18} />
               <span>Go Home</span>
             </Button>

@@ -2,8 +2,11 @@ import { ArrowRight } from "lucide-react";
 import Button from "../../components/ui/Button/Button";
 import Navbar from "../../components/ui/Navbar/Navbar";
 import "./landing-page.scss";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="welcome-page">
       {/* Navbar */}
@@ -26,7 +29,10 @@ const LandingPage = () => {
                 productivity.
               </p>
               <div className="hero__actions">
-                <Button className="hero__cta-btn">
+                <Button
+                  onClick={() => navigate("/signup")}
+                  className="hero__cta-btn"
+                >
                   <span>Get Started Free</span>
                   <ArrowRight size={20} />
                 </Button>
