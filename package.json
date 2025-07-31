@@ -11,12 +11,15 @@
   },
   "dependencies": {
     "@google/genai": "^1.11.0",
+    "axios": "^1.11.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.7.1",
-    "sass": "^1.89.2"
+    "sass": "^1.89.2",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
