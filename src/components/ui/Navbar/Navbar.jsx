@@ -9,7 +9,7 @@ const Navbar = () => {
           <div className="navbar__logo-icon">
             <span>⚡</span>
           </div>
-          <span className="navbar__logo-text">ChatGPT</span>
+          <span className="navbar__logo-text">Geminisito</span>
         </div>
         <ul className="navbar__nav">
           <li>

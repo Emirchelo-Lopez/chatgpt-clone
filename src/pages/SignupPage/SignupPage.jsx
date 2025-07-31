@@ -21,12 +21,16 @@ const SignupPage = () => {
     validationSchema: signupSchema,
     onSubmit: async (values) => {
       try {
-        const { fullName, email, password } = values;
+        const nameParts = values.fullName.split(" ");
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(" ");
+
         await registerUserService({
-          first_name: fullName.split(" ")[0],
-          last_name: fullName.split(" ").slice(1).join(" "),
-          email,
-          password,
+          first_name: firstName,
+          last_name: lastName,
+          email: values.email,
+          password: values.password,
+          gender: "M",
         });
         alert("Registration successful! Please log in.");
         navigate("/login");

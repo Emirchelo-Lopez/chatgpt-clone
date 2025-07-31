@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
   const login = (token) => {
     localStorage.setItem("token", token);
     setToken(token);
-    setUser(jwtDecode(storedToken));
+    setUser(jwtDecode(token));
   };
 
   const logout = () => {
