@@ -1,0 +1,18 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.form-field {
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__help {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    margin-top: $spacing-sm;
+  }
+}

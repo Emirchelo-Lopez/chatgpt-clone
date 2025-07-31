@@ -1,0 +1,256 @@
+@use "../../assets/styles/variables" as *;
+@use "../../assets/styles/mixins" as *;
+
+.settings-page {
+  flex: 1;
+  background-color: $color-primary;
+  overflow-y: auto;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacing-2xl;
+  }
+
+  &__header {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    font-size: $font-size-lg;
+    color: $color-text-muted;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: $spacing-2xl;
+
+    @media (max-width: $breakpoint-tablet) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.settings-nav {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__item {
+    @include button-base;
+    width: 100%;
+    background-color: transparent;
+    color: $color-text-secondary;
+    justify-content: flex-start;
+    padding: $spacing-md;
+    border-radius: $border-radius-md;
+
+    &:hover {
+      background-color: $color-tertiary;
+      color: $color-text-primary;
+    }
+
+    &--active {
+      background-color: $color-tertiary;
+      color: $color-text-primary;
+    }
+  }
+}
+
+.account-settings {
+  background-color: $color-secondary;
+  border-radius: $border-radius-xl;
+  padding: $spacing-2xl;
+  border: 1px solid $color-border;
+
+  &__header {
+    margin-bottom: $spacing-2xl;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__description {
+    color: $color-text-muted;
+    font-size: $font-size-base;
+  }
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.profile-picture {
+  @include flex-start;
+  gap: $spacing-lg;
+
+  &__avatar {
+    width: 4rem;
+    height: 4rem;
+    background: linear-gradient(
+      135deg,
+      $color-gradient-start,
+      $color-gradient-middle
+    );
+    border-radius: 50%;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-xl;
+    color: $color-text-primary;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__text {
+    color: $color-text-secondary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__btn {
+    @include button-base;
+    background-color: $color-tertiary;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+
+    &:hover {
+      background-color: $color-accent;
+      border-color: $color-border-hover;
+    }
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+// .form-field {
+//   &__label {
+//     display: block;
+//     font-size: $font-size-sm;
+//     font-weight: $font-weight-medium;
+//     color: $color-text-primary;
+//     margin-bottom: $spacing-sm;
+//   }
+
+//   &__input-group {
+//     position: relative;
+//     display: flex;
+//     align-items: center;
+//   }
+
+//   //   &__input {
+//   //     width: 100%;
+//   //     padding: $spacing-md;
+//   //     background-color: $color-tertiary;
+//   //     border: 1px solid $color-border;
+//   //     border-radius: $border-radius-md;
+//   //     color: $color-text-primary;
+//   //     font-size: $font-size-base;
+
+//   //     &:focus {
+//   //       outline: none;
+//   //       border-color: $color-gradient-start;
+//   //       box-shadow: 0 0 0 3px rgba($color-gradient-start, 0.1);
+//   //     }
+
+//   //     &[readonly] {
+//   //       background-color: $color-secondary;
+//   //       cursor: not-allowed;
+//   //     }
+//   //   }
+
+//   &__edit-btn {
+//     position: absolute;
+//     right: $spacing-md;
+//     background: transparent;
+//     border: none;
+//     color: $color-text-muted;
+//     cursor: pointer;
+//     padding: $spacing-xs;
+//     border-radius: $border-radius-sm;
+
+//     &:hover {
+//       color: $color-text-primary;
+//       background-color: $color-accent;
+//     }
+//   }
+
+//   &__help {
+//     font-size: $font-size-sm;
+//     color: $color-text-muted;
+//     margin-top: $spacing-sm;
+//   }
+// }
+
+.account-actions {
+  @include flex-start;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  &__btn {
+    @include button-base;
+    padding: $spacing-md $spacing-lg;
+
+    &--primary {
+      background-color: $color-gradient-start;
+      color: white;
+
+      &:hover {
+        background-color: darken($color-gradient-start, 10%);
+      }
+    }
+
+    &--secondary {
+      background-color: $color-tertiary;
+      color: $color-text-primary;
+      border: 1px solid $color-border;
+
+      &:hover {
+        background-color: $color-accent;
+        border-color: $color-border-hover;
+      }
+    }
+
+    &--danger {
+      background-color: transparent;
+      color: #ef4444;
+      border: 1px solid #ef4444;
+
+      &:hover {
+        background-color: #ef4444;
+        color: white;
+      }
+    }
+  }
+}

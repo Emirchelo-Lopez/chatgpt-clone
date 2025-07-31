@@ -1,0 +1,25 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.form-field {
+  &__input {
+    width: 100%;
+    padding: $spacing-md;
+    background-color: $color-tertiary;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-gradient-start;
+      box-shadow: 0 0 0 3px rgba($color-gradient-start, 0.1);
+    }
+
+    &[readonly] {
+      background-color: $color-secondary;
+      cursor: not-allowed;
+    }
+  }
+}

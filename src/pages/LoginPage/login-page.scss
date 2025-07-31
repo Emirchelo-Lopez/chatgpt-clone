@@ -1,0 +1,298 @@
+@use "../../assets/styles/variables" as *;
+@use "../../assets/styles/mixins" as *;
+
+.auth-page {
+  min-height: 100vh;
+  background-color: $color-primary;
+  @include flex-start;
+  padding: 0;
+  flex-direction: column;
+
+  &__container {
+    @include flex-center;
+    flex: 1;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  &__logo {
+    text-align: center;
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__logo-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: $color-button-primary;
+    border-radius: $border-radius-lg;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    color: $color-button-primary-text;
+    margin: 0 auto $spacing-md;
+  }
+
+  &__logo-text {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+
+  &__link {
+    color: $color-gradient-start;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-form {
+  background-color: $color-secondary;
+  border-radius: $border-radius-xl;
+  padding: $spacing-2xl;
+  border: 1px solid $color-border;
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    color: $color-text-muted;
+    font-size: $font-size-base;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__options {
+    @include flex-between;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  &__submit-btn {
+    @include button-base;
+    width: 100%;
+    background: linear-gradient(
+      135deg,
+      $color-gradient-start,
+      $color-gradient-middle
+    );
+    color: white;
+    padding: $spacing-md $spacing-lg;
+    font-weight: $font-weight-semibold;
+    justify-content: center;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($color-gradient-start, 0.3);
+    }
+  }
+
+  &__divider {
+    text-align: center;
+    position: relative;
+    margin: $spacing-xl 0;
+    color: $color-text-muted;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: $color-border;
+    }
+
+    span {
+      background-color: $color-secondary;
+      padding: 0 $spacing-md;
+    }
+  }
+
+  //   &__social {
+  //     display: flex;
+  //     flex-direction: column;
+  //     gap: $spacing-md;
+  //     margin-bottom: $spacing-xl;
+  //   }
+
+  &__footer {
+    text-align: center;
+    color: $color-text-muted;
+  }
+}
+
+.form-field {
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__input-group {
+    position: relative;
+  }
+
+  &__input {
+    width: 100%;
+    padding: $spacing-md;
+    background-color: $color-tertiary;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-gradient-start;
+      box-shadow: 0 0 0 3px rgba($color-gradient-start, 0.1);
+    }
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+
+  &__toggle-btn {
+    position: absolute;
+    right: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-text-primary;
+    }
+  }
+}
+
+// .checkbox {
+//   @include flex-start;
+//   gap: $spacing-sm;
+//   cursor: pointer;
+
+//   &__input {
+//     display: none;
+
+//     &:checked + .checkbox__checkmark {
+//       background-color: $color-gradient-start;
+//       border-color: $color-gradient-start;
+
+//       &::after {
+//         display: block;
+//       }
+//     }
+//   }
+
+//   &__checkmark {
+//     width: 1rem;
+//     height: 1rem;
+//     border: 2px solid $color-border;
+//     border-radius: $border-radius-sm;
+//     position: relative;
+//     flex-shrink: 0;
+
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       display: none;
+//       left: 2px;
+//       top: -1px;
+//       width: 4px;
+//       height: 8px;
+//       border: solid white;
+//       border-width: 0 2px 2px 0;
+//       transform: rotate(45deg);
+//     }
+//   }
+
+//   &__label {
+//     font-size: $font-size-sm;
+//     color: $color-text-secondary;
+//     line-height: 1.4;
+//   }
+// }
+
+// .social-btn {
+//   @include button-base;
+//   width: 100%;
+//   background-color: $color-tertiary;
+//   color: $color-text-primary;
+//   border: 1px solid $color-border;
+//   justify-content: center;
+
+//   &:hover {
+//     background-color: $color-accent;
+//     border-color: $color-border-hover;
+//   }
+
+//   &__icon {
+//     width: 1.25rem;
+//     height: 1.25rem;
+//     background-color: $color-text-primary;
+//     color: $color-primary;
+//     border-radius: 50%;
+//     @include flex-center;
+//     font-weight: $font-weight-bold;
+//     font-size: $font-size-xs;
+//   }
+// }
+
+.password-requirements {
+  background-color: $color-tertiary;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+
+  &__title {
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__item {
+    @include flex-start;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+
+    svg {
+      color: $color-text-muted;
+    }
+
+    &--valid {
+      color: #10b981;
+
+      svg {
+        color: #10b981;
+      }
+    }
+  }
+}
