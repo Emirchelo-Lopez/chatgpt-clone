@@ -1,19 +1,13 @@
 import { Home, ArrowLeft, Search, MessageSquare } from "lucide-react";
 import "./not-found.scss";
 import Button from "../../components/ui/Button/Button";
+import Navbar from "../../components/ui/Navbar/Navbar";
 
 const NotFoundPage = () => {
   return (
     <div className="error-page">
+      <Navbar />
       <div className="error-page__container">
-        {/* Logo */}
-        <div className="error-page__logo">
-          <div className="error-page__logo-icon">
-            <span>⚡</span>
-          </div>
-          <h1 className="error-page__logo-text">ChatGPT</h1>
-        </div>
-
         {/* Error Content */}
         <div className="error-content">
           <div className="error-content__illustration">

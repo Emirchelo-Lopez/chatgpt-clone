@@ -1,0 +1,92 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.error-navbar {
+  width: 100%;
+  background-color: $color-secondary;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: $spacing-2xl;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+    @include flex-between;
+    height: 4rem;
+  }
+
+  &__logo {
+    @include flex-start;
+    gap: $spacing-md;
+  }
+
+  &__logo-icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: $color-button-primary;
+    border-radius: $border-radius-md;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    color: $color-button-primary-text;
+  }
+
+  &__logo-text {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+
+  &__nav {
+    @include flex-start;
+    gap: $spacing-lg;
+  }
+
+  &__link {
+    padding: $spacing-sm $spacing-md;
+    color: $color-text-secondary;
+    text-decoration: none;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius-md;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $color-text-primary;
+      background-color: $color-tertiary;
+    }
+
+    &--primary {
+      background: linear-gradient(
+        135deg,
+        $color-gradient-start,
+        $color-gradient-middle
+      );
+      color: white;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba($color-gradient-start, 0.3);
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    &__container {
+      padding: 0 $spacing-md;
+    }
+
+    &__nav {
+      gap: $spacing-md;
+    }
+
+    &__link {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-xs;
+    }
+
+    &__logo-text {
+      display: none;
+    }
+  }
+}
