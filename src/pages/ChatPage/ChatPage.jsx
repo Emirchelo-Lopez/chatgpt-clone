@@ -8,10 +8,10 @@ import "./chat-page.scss";
 
 export default function ChatPage() {
   // Use hardcoded chat history for the sidebar for now
-  const chatHistoryForSidebar = [
-    { id: 1, title: "React Best Practices", isActive: false },
-    { id: 2, title: "SASS vs CSS Modules", isActive: true },
-  ];
+  //   const chatHistoryForSidebar = [
+  //     { id: 1, title: "React Best Practices", isActive: false },
+  //     { id: 2, title: "SASS vs CSS Modules", isActive: true },
+  //   ];
 
   // State for messages, input, and loading status
   const [messages, setMessages] = useState([]);
@@ -65,9 +65,9 @@ export default function ChatPage() {
 
   return (
     <div className="chatgpt-clone">
-      <Sidebar chatHistory={chatHistoryForSidebar} />
+      <Sidebar />
       <div className="main-content">
-        <ChatHeader title="SASS vs CSS Modules" />
+        <ChatHeader title="New Chat" />
         <div className="chat-messages">
           <div className="chat-messages__container">
             {messages.map((message) => (

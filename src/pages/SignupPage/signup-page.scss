@@ -1,0 +1,119 @@
+@use "../../assets/styles/variables" as *;
+@use "../../assets/styles/mixins" as *;
+
+.auth-page {
+  min-height: 100vh;
+  background-color: $color-primary;
+  @include flex-start;
+  padding: 0;
+  flex-direction: column;
+
+  &__container {
+    @include flex-center;
+    flex: 1;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  &__link {
+    color: $color-gradient-start;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-form {
+  background-color: $color-secondary;
+  border-radius: $border-radius-xl;
+  padding: $spacing-2xl;
+  border: 1px solid $color-border;
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    color: $color-text-muted;
+    font-size: $font-size-base;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__submit-btn {
+    @include button-base;
+    width: 100%;
+    background: linear-gradient(
+      135deg,
+      $color-gradient-start,
+      $color-gradient-middle
+    );
+    color: white;
+    padding: $spacing-md $spacing-lg;
+    font-weight: $font-weight-semibold;
+    justify-content: center;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($color-gradient-start, 0.3);
+    }
+  }
+
+  &__footer {
+    text-align: center;
+    color: $color-text-muted;
+  }
+}
+
+.password-requirements {
+  background-color: $color-tertiary;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+
+  &__title {
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__item {
+    @include flex-start;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+
+    svg {
+      color: $color-text-muted;
+    }
+
+    &--valid {
+      color: #10b981;
+
+      svg {
+        color: #10b981;
+      }
+    }
+  }
+}
