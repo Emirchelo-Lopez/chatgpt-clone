@@ -4,6 +4,7 @@ import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
 import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import { generateResponse } from "../../api/gemini-ai"; // Import the function
+import { getMeUserService } from "../../api/userService";
 import "./chat-page.scss";
 
 export default function ChatPage() {
@@ -19,11 +20,27 @@ export default function ChatPage() {
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
   const [userInput, setUserInput] = useState("");
+  const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
   }, [messages]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await getMeUserService();
+        setUserData(data);
+      } catch (error) {
+        console.error("Error at fetching user data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   // Function to handle sending a message
   const handleSendMessage = async () => {
@@ -87,7 +104,7 @@ export default function ChatPage() {
               <ChatMessage
                 key={message.id}
                 role={message.role}
-                name="Emir" // You can make this dynamic
+                name={userData?.first_name} // You can make this dynamic
                 timestamp={message.timestamp}
                 content={message.content}
                 onNewChat={handleNewChat}
