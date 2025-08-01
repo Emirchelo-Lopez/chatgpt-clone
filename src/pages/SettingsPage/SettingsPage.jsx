@@ -1,12 +1,12 @@
 import { LogOut } from "lucide-react";
 import Button from "../../components/ui/Button/Button";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
-import "./settings-page.scss";
 import FormField from "../../components/ui/FormField/FormField";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMeUserService } from "../../api/userService";
+import "./settings-page.scss";
 
 const SettingsPage = () => {
   const { logout } = useAuth();

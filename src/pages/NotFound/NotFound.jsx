@@ -1,8 +1,8 @@
-import { Home, ArrowLeft, Search, MessageSquare } from "lucide-react";
-import "./not-found.scss";
+import { Home, ArrowLeft } from "lucide-react";
 import Button from "../../components/ui/Button/Button";
 import Navbar from "../../components/ui/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import "./not-found.scss";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();

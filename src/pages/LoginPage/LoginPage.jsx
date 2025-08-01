@@ -67,7 +67,7 @@ const LoginPage = () => {
             />
 
             <Button type="submit" className="auth-form__submit-btn">
-              <span>Sign In</span>
+              <span>Log In</span>
               <ArrowRight size={18} />
             </Button>
           </form>
