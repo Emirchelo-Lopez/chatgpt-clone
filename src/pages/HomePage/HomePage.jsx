@@ -7,28 +7,28 @@ import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import "./home-page.scss";
 
 const HomePage = () => {
-  const chatHistory = [
-    {
-      id: 1,
-      title: "React Best Practices",
-      isActive: false,
-    },
-    {
-      id: 2,
-      title: "SASS vs CSS Modules",
-      isActive: true,
-    },
-    {
-      id: 3,
-      title: "JavaScript Async/Await",
-      isActive: false,
-    },
-    {
-      id: 4,
-      title: "Node.js Performance Tips",
-      isActive: false,
-    },
-  ];
+  //   const chatHistory = [
+  //     {
+  //       id: 1,
+  //       title: "React Best Practices",
+  //       isActive: false,
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "SASS vs CSS Modules",
+  //       isActive: true,
+  //     },
+  //     {
+  //       id: 3,
+  //       title: "JavaScript Async/Await",
+  //       isActive: false,
+  //     },
+  //     {
+  //       id: 4,
+  //       title: "Node.js Performance Tips",
+  //       isActive: false,
+  //     },
+  //   ];
   const promptSuggestions = [
     {
       icon: <Sparkles className="prompt-card__icon" />,
@@ -51,7 +51,7 @@ const HomePage = () => {
   return (
     <div className="chatgpt-clone">
       {/* Sidebar */}
-      <Sidebar chatHistory={chatHistory} />
+      <Sidebar />
 
       {/* Main Content */}
       <div className="main-content">

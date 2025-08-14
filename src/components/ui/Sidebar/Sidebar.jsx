@@ -8,11 +8,26 @@ import { useNavigate } from "react-router-dom";
 import { getMeUserService } from "../../../api/userService";
 import ChatSaved from "../ChatSaved/ChatSaved";
 
-const Sidebar = ({ chatHistory }) => {
+const Sidebar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
+  const [chatHistory, setChatHistory] = useState(null);
+
+  useEffect(() => {
+    const fetchChatHistory = async () => {
+      try {
+        const res = await fetch("src/api/chatHistory.json");
+        const data = await res.json();
+        setChatHistory(data);
+      } catch (error) {
+        console.error("Error at fetching chat history: ", error);
+      }
+    };
+
+    fetchChatHistory();
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {

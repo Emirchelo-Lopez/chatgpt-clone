@@ -1,10 +1,18 @@
 import { X } from "lucide-react";
 import "./chat-saved.scss";
+import { useNavigate } from "react-router-dom";
 
 const ChatSaved = ({ chat, isActive, onSelect }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    onSelect();
+    navigate("/chat");
+  };
+
   return (
     <div
-      onClick={onSelect}
+      onClick={handleClick}
       className={`sidebar__chat-item ${
         isActive ? "sidebar__chat-item--active" : ""
       }`}
