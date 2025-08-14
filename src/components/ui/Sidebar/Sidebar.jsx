@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import { Plus, Settings } from "lucide-react";
+import { Plus, Settings, X } from "lucide-react";
 import Button from "../Button/Button";
 import "./sidebar.scss";
 import Profile from "../Profile/Profile";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { getMeUserService } from "../../../api/userService";
+import ChatSaved from "../ChatSaved/ChatSaved";
 
 const Sidebar = ({ chatHistory }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [activeChatId, setActiveChatId] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -26,6 +28,10 @@ const Sidebar = ({ chatHistory }) => {
     fetchUserData();
   }, [user]);
 
+  const handleChatSelect = (chatId) => {
+    setActiveChatId(chatId === activeChatId ? null : chatId);
+  };
+
   return (
     <div className="sidebar">
       {/* Header */}
@@ -36,7 +42,7 @@ const Sidebar = ({ chatHistory }) => {
           </div>
         </div>
         <Button
-          onClick={() => navigate("/chat")}
+          onClick={() => navigate("/start")}
           className="sidebar__new-chat-btn"
         >
           <Plus size={16} />
@@ -50,14 +56,12 @@ const Sidebar = ({ chatHistory }) => {
         <div className="sidebar__chat-history-list">
           {chatHistory &&
             chatHistory.map((chat) => (
-              <div
+              <ChatSaved
                 key={chat.id}
-                className={`sidebar__chat-item ${
-                  chat.isActive ? "sidebar__chat-item--active" : ""
-                }`}
-              >
-                <span className="sidebar__chat-item-title">{chat.title}</span>
-              </div>
+                chat={chat}
+                isActive={activeChatId === chat.id}
+                onSelect={() => handleChatSelect(chat.id)}
+              />
             ))}
         </div>
       </div>

@@ -1,0 +1,49 @@
+@use "../../../assets/styles/variables" as *;
+@use "../../../assets/styles/mixins" as *;
+
+.sidebar {
+  &__chat-item {
+    @include flex-between;
+    padding: $spacing-md $spacing-md;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $color-tertiary;
+
+      .sidebar__chat-item-menu {
+        opacity: 1;
+      }
+    }
+    &--active {
+      background-color: $color-tertiary;
+    }
+  }
+
+  &__chat-item-title {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__chat-item-menu {
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    opacity: 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $color-accent;
+      color: $color-text-primary;
+    }
+  }
+}
