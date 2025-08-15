@@ -3,7 +3,7 @@ import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
 import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
-import { generateResponse } from "../../api/gemini-ai"; // Import the function
+import { generateResponse } from "../../api/gemini-ai";
 import { getMeUserService } from "../../api/userService";
 import "./chat-page.scss";
 
