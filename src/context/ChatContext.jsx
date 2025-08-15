@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-  const [activeChatId, setActiveChatId] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
 
   const chatHistory = [
     {
@@ -29,8 +29,8 @@ const ChatProvider = ({ children }) => {
   ];
 
   const value = {
-    activeChatId,
-    setActiveChatId,
+    activeItem,
+    setActiveItem,
     chatHistory,
   };
 

@@ -13,7 +13,7 @@ const Sidebar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const { activeChatId, setActiveChatId, chatHistory } = useChat();
+  const { activeItem, setActiveItem, chatHistory } = useChat();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,8 +29,9 @@ const Sidebar = () => {
     fetchUserData();
   }, [user]);
 
-  const handleChatSelect = (chatId) => {
-    setActiveChatId(chatId === activeChatId ? null : chatId);
+  const handleItemSelect = (itemId, path) => {
+    setActiveItem(itemId);
+    navigate(path);
   };
 
   return (
@@ -43,7 +44,7 @@ const Sidebar = () => {
           </div>
         </div>
         <Button
-          onClick={() => navigate("/start")}
+          onClick={() => handleItemSelect("new-chat", "/start")}
           className="sidebar__new-chat-btn"
         >
           <Plus size={16} />
@@ -60,8 +61,8 @@ const Sidebar = () => {
               <ChatSaved
                 key={chat.id}
                 chat={chat}
-                isActive={activeChatId === chat.id}
-                onSelect={() => handleChatSelect(chat.id)}
+                isActive={activeItem === chat.id}
+                onSelect={() => handleItemSelect(chat.id, "/chat")}
               />
             ))}
         </div>
@@ -80,8 +81,10 @@ const Sidebar = () => {
       {/* Footer */}
       <div className="sidebar__footer">
         <Button
-          onClick={() => navigate("/settings")}
-          className="sidebar__settings-btn"
+          onClick={() => handleItemSelect("settings", "/settings")}
+          className={`sidebar__settings-btn ${
+            activeItem === "settings" ? "sidebar__settings-btn--active" : ""
+          }`}
         >
           <Settings size={16} />
           <span>Settings</span>
