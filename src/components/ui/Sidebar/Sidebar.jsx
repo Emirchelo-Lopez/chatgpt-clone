@@ -1,33 +1,19 @@
 import { useState, useEffect } from "react";
 import { Plus, Settings, X } from "lucide-react";
 import Button from "../Button/Button";
-import "./sidebar.scss";
+import ChatSaved from "../ChatSaved/ChatSaved";
 import Profile from "../Profile/Profile";
+import "./sidebar.scss";
 import useAuth from "../../../hooks/useAuth";
+import useChat from "../../../hooks/useChat";
 import { useNavigate } from "react-router-dom";
 import { getMeUserService } from "../../../api/userService";
-import ChatSaved from "../ChatSaved/ChatSaved";
 
 const Sidebar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [activeChatId, setActiveChatId] = useState(null);
-  const [chatHistory, setChatHistory] = useState(null);
-
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      try {
-        const res = await fetch("src/api/chatHistory.json");
-        const data = await res.json();
-        setChatHistory(data);
-      } catch (error) {
-        console.error("Error at fetching chat history: ", error);
-      }
-    };
-
-    fetchChatHistory();
-  }, []);
+  const { activeChatId, setActiveChatId, chatHistory } = useChat();
 
   useEffect(() => {
     const fetchUserData = async () => {
