@@ -16,9 +16,9 @@ const AppRouter = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="/start" element={<HomePage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/start" element={<HomePage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

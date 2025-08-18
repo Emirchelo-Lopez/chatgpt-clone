@@ -118,14 +118,14 @@ export default function ChatPage() {
         <div className="main-content__chat-input-section">
           <div className="main-content__chat-input-container">
             <ChatInput
-              placeholder="Message ChatGPT"
+              placeholder="Message Geminisito"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               onSend={handleSendMessage}
               onNewChat={handleNewChat}
             />
             <p className="main-content__footer-text">
-              ChatGPT can make mistakes. Check important info.
+              Geminisito can make mistakes. Check important info.
             </p>
           </div>
         </div>

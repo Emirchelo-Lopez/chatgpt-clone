@@ -22,7 +22,7 @@ const LoginPage = () => {
       try {
         const response = await loginUserService(values);
         login(response.data.token);
-        navigate("/chat");
+        navigate("/start");
       } catch (error) {
         alert(`Login failed: ${error.message}`);
       }
