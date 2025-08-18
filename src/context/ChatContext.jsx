@@ -1,9 +1,13 @@
 import { createContext, useState } from "react";
+import { generateResponse } from "../api/gemini-ai";
+import { Sparkles, Mail, FileText, Share2 } from "lucide-react";
 
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
   const [activeItem, setActiveItem] = useState(null);
+  const [promptSuggestions, setPromptSuggestions] = useState([]);
+  const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
 
   const chatHistory = [
     {
@@ -28,10 +32,56 @@ const ChatProvider = ({ children }) => {
     },
   ];
 
+  const fetchPromptSuggestions = async () => {
+    if (promptSuggestions.length > 0) return;
+    setIsLoadingPrompts(true);
+
+    const defaultSuggestions = [
+      {
+        icon: <Sparkles className="prompt-card__icon" />,
+        title: "Create a step-by-step plan for launching a new product",
+      },
+      {
+        icon: <Mail className="prompt-card__icon" />,
+        title: "Write a polite email to decline an invitation to a Webinar",
+      },
+      {
+        icon: <FileText className="prompt-card__icon" />,
+        title: "Summarize this blog post in a few key points",
+      },
+      {
+        icon: <Share2 className="prompt-card__icon" />,
+        title: "Explain blockchain in simple terms, assume I am a 5 YO",
+      },
+    ];
+
+    try {
+      const promptRequest =
+        "Give me five prompt ideas of any topic, to see what you're capable of. Prompts must be only text generation-related. Must be a sentence long (not more than 10-12 words). Each prompt should be separated by a hyphen. Go straight to the point.";
+      const botResponseContent = await generateResponse(promptRequest, []);
+      const arrayPrompts = botResponseContent
+        .split("-")
+        .filter((p) => p.trim() !== "");
+      const promptCards = arrayPrompts.map((suggestion) => ({
+        icon: <Sparkles className="prompt-card__icon" />,
+        title: suggestion.trim(),
+      }));
+      setPromptSuggestions(promptCards);
+    } catch (error) {
+      console.error("Failed to generate prompt suggestion:", error);
+      setPromptSuggestions(defaultSuggestions);
+    } finally {
+      setIsLoadingPrompts(false);
+    }
+  };
+
   const value = {
     activeItem,
     setActiveItem,
     chatHistory,
+    promptSuggestions,
+    isLoadingPrompts,
+    fetchPromptSuggestions,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
