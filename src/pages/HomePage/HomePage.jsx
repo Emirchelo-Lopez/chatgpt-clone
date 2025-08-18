@@ -4,6 +4,7 @@ import PromptCard from "../../components/ui/PromptCard/PromptCard";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import useChat from "../../hooks/useChat";
+import { defaultSuggestions } from "../../data/defaultPrompts";
 import "./home-page.scss";
 
 const HomePage = () => {
@@ -13,25 +14,6 @@ const HomePage = () => {
   useEffect(() => {
     fetchPromptSuggestions();
   }, [fetchPromptSuggestions]);
-
-  const defaultSuggestions = [
-    {
-      icon: <Sparkles className="prompt-card__icon" />,
-      title: "Create a step-by-step plan for launching a new product",
-    },
-    {
-      icon: <Mail className="prompt-card__icon" />,
-      title: "Write a polite email to decline an invitation to a Webinar",
-    },
-    {
-      icon: <FileText className="prompt-card__icon" />,
-      title: "Summarize this blog post in a few key points",
-    },
-    {
-      icon: <Share2 className="prompt-card__icon" />,
-      title: "Explain blockchain in simple terms, assume I am a 5 YO",
-    },
-  ];
 
   const suggestionsToShow =
     isLoadingPrompts && promptSuggestions.length === 0
