@@ -1,6 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { generateResponse } from "../api/gemini-ai";
-import { Sparkles, Mail, FileText, Share2 } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { defaultSuggestions } from "../data/defaultPrompts";
 
 const ChatContext = createContext();
@@ -10,28 +10,36 @@ const ChatProvider = ({ children }) => {
   const [promptSuggestions, setPromptSuggestions] = useState([]);
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
 
-  const chatHistory = [
-    {
-      id: 1,
-      title: "React Best Practices",
-      isActive: false,
-    },
-    {
-      id: 2,
-      title: "SASS vs CSS Modules",
-      isActive: true,
-    },
-    {
-      id: 3,
-      title: "JavaScript Async/Await",
-      isActive: false,
-    },
-    {
-      id: 4,
-      title: "Node.js Performance Tips",
-      isActive: false,
-    },
-  ];
+  // State for the pending prompt from Home Page
+  //   const [pendingPrompt, setPendingPrompt] = useState(null);
+
+  // State to manage chat history dynamically
+  const [chatHistory, setChatHistory] = useState(() => {
+    const savedChats = localStorage.getItem("chatHistory");
+    return savedChats ? JSON.parse(savedChats) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  }, [chatHistory]);
+
+  const addChat = (newChat) => {
+    setChatHistory((prevHistory) => [...prevHistory, newChat]);
+  };
+
+  const deleteChat = (chatId) => {
+    setChatHistory((prevHistory) =>
+      prevHistory.filter((chat) => chat.id !== chatId)
+    );
+  };
+
+  const renameChat = (chatId, newTitle) => {
+    setChatHistory((prevHistory) =>
+      prevHistory.map((chat) =>
+        chat.id === chatId ? { ...chat, title: newTitle } : chat
+      )
+    );
+  };
 
   const fetchPromptSuggestions = async () => {
     if (promptSuggestions.length > 0) return;
@@ -61,9 +69,14 @@ const ChatProvider = ({ children }) => {
     activeItem,
     setActiveItem,
     chatHistory,
+    addChat,
+    deleteChat,
+    renameChat,
     promptSuggestions,
     isLoadingPrompts,
     fetchPromptSuggestions,
+    // pendingPrompt,
+    // setPendingPrompt,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

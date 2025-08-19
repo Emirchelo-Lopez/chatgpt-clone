@@ -1,110 +1,147 @@
-import { useEffect, useState } from "react";
+// src/pages/ChatPage/ChatPage.jsx
+
+import { useEffect, useState, useCallback } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
 import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import { generateResponse } from "../../api/gemini-ai";
 import { getMeUserService } from "../../api/userService";
+import useChat from "../../hooks/useChat";
 import "./chat-page.scss";
 
 export default function ChatPage() {
-  // Use hardcoded chat history for the sidebar for now
-  //   const chatHistoryForSidebar = [
-  //     { id: 1, title: "React Best Practices", isActive: false },
-  //     { id: 2, title: "SASS vs CSS Modules", isActive: true },
-  //   ];
+  // Pending prompt to send extracted from prompt suggestion card
+  //   const { pendingPrompt, setPendingPrompt } = useChat();
 
-  // State for messages, input, and loading status
-  const [messages, setMessages] = useState(() => {
-    const savedMessages = localStorage.getItem("chatMessages");
-    return savedMessages ? JSON.parse(savedMessages) : [];
-  });
+  const { chatId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { addChat, chatHistory } = useChat();
+
+  // a ref to act as our "has been sent" flag
+  //   const promptSentRef = useRef(false);
+
+  const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
-  }, [messages]);
+  const currentChat = chatHistory.find((chat) => chat.id === chatId);
 
+  // Effect to load messages or reset when the chat ID changes
+  useEffect(() => {
+    const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
+    setMessages(savedMessages ? JSON.parse(savedMessages) : []);
+  }, [chatId]);
+
+  // Effect to save messages whenever they change
+  useEffect(() => {
+    localStorage.setItem(`chatMessages_${chatId}`, JSON.stringify(messages));
+  }, [messages, chatId]);
+
+  // Effect to fetch user data once
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const data = await getMeUserService();
         setUserData(data);
       } catch (error) {
-        console.error("Error at fetching user data", error);
-      } finally {
-        setIsLoading(false);
+        console.error("Error fetching user data", error);
       }
     };
-
     fetchUserData();
   }, []);
 
-  // Function to handle sending a message
-  const handleSendMessage = async () => {
-    if (!userInput.trim()) return; // Don't send empty messages
+  // Function to send a message and receive an API response
+  const handleSendMessage = useCallback(
+    async (contentToSend) => {
+      const messageText = contentToSend || userInput;
+      if (!messageText.trim()) return;
 
-    const userMessage = {
-      id: `user-${Date.now()}`,
-      role: "user",
-      content: userInput,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
+      const userMessage = {
+        id: `user-${Date.now()}`,
+        role: "user",
+        content: messageText,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
 
-    // Add user message to the chat and show loading state
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
-    setIsLoading(true);
-    const currentInput = userInput;
-    setUserInput(""); // Clear the input field
+      const updatedMessages = [...messages, userMessage];
+      setMessages(updatedMessages);
+      setIsLoading(true);
+      if (!contentToSend) {
+        setUserInput("");
+      }
 
-    // Prepare history for the API call, mapping "assistant" to "model".
-    const apiHistory = updatedMessages.map((msg) => ({
-      // If the role is 'assistant', change it to 'model' for the API. Otherwise, keep it.
-      role: msg.role === "assistant" ? "model" : msg.role,
-      parts: [{ text: msg.content }],
-    }));
+      if (messages.length === 0) {
+        const newChatTitle =
+          messageText.length > 25
+            ? `${messageText.substring(0, 25)}...`
+            : messageText;
+        addChat({ id: chatId, title: newChatTitle, isActive: true });
+      }
 
-    // Get AI response
-    const botResponseContent = await generateResponse(currentInput, apiHistory);
+      const apiHistory = updatedMessages.map((msg) => ({
+        role: msg.role === "assistant" ? "model" : msg.role,
+        parts: [{ text: msg.content }],
+      }));
 
-    const botMessage = {
-      id: `bot-${Date.now()}`,
-      role: "assistant",
-      content: botResponseContent,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
+      const botResponseContent = await generateResponse(
+        messageText,
+        apiHistory
+      );
 
-    // Add AI response to the chat and hide loading state
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
-    setIsLoading(false);
-  };
+      const botMessage = {
+        id: `bot-${Date.now()}`,
+        role: "assistant",
+        content: botResponseContent,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+      setIsLoading(false);
+    },
+    [userInput, messages, addChat, chatId]
+  );
+
+  // Effect to handle the first message passed from HomePage
+  useEffect(() => {
+    const firstMessage = location.state?.firstMessage;
+    if (firstMessage && messages.length === 0) {
+      handleSendMessage(firstMessage);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [
+    location.state,
+    location.pathname,
+    messages.length,
+    handleSendMessage,
+    navigate,
+  ]);
 
   const handleNewChat = () => {
-    setMessages([]);
-    localStorage.removeItem("chatMessages");
+    navigate(`/chat/chat-${Date.now()}`);
   };
 
   return (
     <div className="chatgpt-clone">
       <Sidebar />
       <div className="main-content">
-        <ChatHeader title="New Chat" />
+        <ChatHeader title={currentChat?.title || "New Chat"} />
         <div className="chat-messages">
           <div className="chat-messages__container">
             {messages.map((message) => (
               <ChatMessage
                 key={message.id}
                 role={message.role}
-                name={userData?.first_name} // You can make this dynamic
+                name={userData?.first_name}
                 timestamp={message.timestamp}
                 content={message.content}
                 onNewChat={handleNewChat}
@@ -121,7 +158,7 @@ export default function ChatPage() {
               placeholder="Message Geminisito"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              onSend={handleSendMessage}
+              onSend={() => handleSendMessage()}
               onNewChat={handleNewChat}
             />
             <p className="main-content__footer-text">

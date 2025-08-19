@@ -9,6 +9,7 @@ const Input = ({
   required,
   name,
   onChange,
+  ...props // This accepts any other props
 }) => {
   return (
     <input
@@ -20,6 +21,7 @@ const Input = ({
       required={required}
       name={name}
       onChange={onChange}
+      {...props} // We spread the rest of the props here
     />
   );
 };

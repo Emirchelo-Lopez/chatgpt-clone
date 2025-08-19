@@ -1,5 +1,5 @@
-import { Sparkles, Mail, FileText, Share2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PromptCard from "../../components/ui/PromptCard/PromptCard";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
@@ -8,17 +8,45 @@ import { defaultSuggestions } from "../../data/defaultPrompts";
 import "./home-page.scss";
 
 const HomePage = () => {
+  // States to render prompt suggestions without unnecessary API calls
   const { promptSuggestions, isLoadingPrompts, fetchPromptSuggestions } =
     useChat();
+
+  // State to handle the input field's value
+  const [userInput, setUserInput] = useState("");
+
+  // Navigation initialized
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPromptSuggestions();
   }, [fetchPromptSuggestions]);
 
+  const handleSendMessage = () => {
+    if (!userInput.trim()) return;
+
+    const newChatId = `chat-${Date.now()}`;
+    navigate(`/chat/${newChatId}`, { state: { firstMessage: userInput } });
+  };
+
+  // If prompt suggestions fetched correctly will be shown, otherwise, default prompts will be rendered to avoid loading empty page
   const suggestionsToShow =
     isLoadingPrompts && promptSuggestions.length === 0
       ? defaultSuggestions
       : promptSuggestions;
+
+  //   // Function to store the clicked prompt card title into inputValue state
+  //   const handlePromptClick = (title) => {
+  //     setInputValue(title);
+  //   };
+
+  //   // function to handle sending the prompt
+  //   const handleSend = () => {
+  //     if (inputValue.trim()) {
+  //       setPendingPrompt(inputValue.trim());
+  //       navigate("/chat");
+  //     }
+  //   };
 
   return (
     <div className="chatgpt-clone">
@@ -49,6 +77,7 @@ const HomePage = () => {
                   key={index}
                   icon={prompt.icon}
                   title={prompt.title}
+                  onClick={() => setUserInput(prompt.title)}
                 />
               ))}
             </div>
@@ -58,7 +87,12 @@ const HomePage = () => {
         {/* Chat Input */}
         <div className="main-content__chat-input-section">
           <div className="main-content__chat-input-container">
-            <ChatInput placeholder="Message Geminisito" />
+            <ChatInput
+              placeholder="Message Geminisito"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onSend={handleSendMessage}
+            />
             <p className="main-content__footer-text">
               Geminisito can make mistakes. Check important info.
             </p>

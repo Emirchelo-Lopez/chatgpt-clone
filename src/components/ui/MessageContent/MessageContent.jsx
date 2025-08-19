@@ -8,7 +8,7 @@ const MessageContent = ({ role, timestamp, content, onNewChat }) => {
     <div className="message__content">
       <div className="message__header">
         <span className="message__sender">
-          {role === "user" ? "You" : "ChatGPT"}
+          {role === "user" ? "You" : "Geminisito"}
         </span>
         <span className="message__timestamp">{timestamp}</span>
       </div>

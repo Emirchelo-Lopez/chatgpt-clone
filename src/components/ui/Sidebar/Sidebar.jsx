@@ -10,9 +10,11 @@ import "./sidebar.scss";
 
 const Sidebar = () => {
   const { user, userInfo, fetchUserInfo } = useAuth();
-  const { activeItem, setActiveItem, chatHistory } = useChat();
+  const { activeItem, setActiveItem, chatHistory, deleteChat, renameChat } =
+    useChat();
   const navigate = useNavigate();
 
+  // Fetch the user info to render it on sidebar
   useEffect(() => {
     if (user) {
       // It's good practice to ensure there's a user before fetching
@@ -20,6 +22,7 @@ const Sidebar = () => {
     }
   }, [user, fetchUserInfo]);
 
+  // Function to set item as active and redirects to the page
   const handleItemSelect = (itemId, path) => {
     setActiveItem(itemId);
     navigate(path);
@@ -53,21 +56,13 @@ const Sidebar = () => {
                 key={chat.id}
                 chat={chat}
                 isActive={activeItem === chat.id}
-                onSelect={() => handleItemSelect(chat.id, "/chat")}
+                onSelect={() => handleItemSelect(chat.id, `/chat/${chat.id}`)}
+                onDelete={() => deleteChat(chat.id)}
+                onRename={(newTitle) => renameChat(chat.id, newTitle)}
               />
             ))}
         </div>
       </div>
-
-      {/* Navigation */}
-      {/* <div className="sidebar__nav">
-        <nav className="sidebar__nav-list">
-          <Button onClick={() => navigate("/chat") className="sidebar__nav-item">
-            <MessageSquare size={16} />
-            <span>Chat History</span>
-          </Button>
-        </nav>
-      </div> */}
 
       {/* Footer */}
       <div className="sidebar__footer">
