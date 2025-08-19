@@ -1,33 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus, Settings, X } from "lucide-react";
 import Button from "../Button/Button";
 import ChatSaved from "../ChatSaved/ChatSaved";
 import Profile from "../Profile/Profile";
-import "./sidebar.scss";
 import useAuth from "../../../hooks/useAuth";
 import useChat from "../../../hooks/useChat";
-import { useNavigate } from "react-router-dom";
-import { getMeUserService } from "../../../api/userService";
+import "./sidebar.scss";
 
 const Sidebar = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
+  const { user, userInfo, fetchUserInfo } = useAuth();
   const { activeItem, setActiveItem, chatHistory } = useChat();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (user) {
-        try {
-          const data = await getMeUserService();
-          setUserData(data);
-        } catch (error) {
-          console.error("Failed to fetch user data for sidebar", error);
-        }
-      }
-    };
-    fetchUserData();
-  }, [user]);
+    if (user) {
+      // It's good practice to ensure there's a user before fetching
+      fetchUserInfo();
+    }
+  }, [user, fetchUserInfo]);
 
   const handleItemSelect = (itemId, path) => {
     setActiveItem(itemId);
@@ -91,7 +82,7 @@ const Sidebar = () => {
         </Button>
 
         <Profile
-          name={userData?.first_name || user?.first_name || "User"}
+          name={userInfo?.first_name || user?.first_name || "User"}
           className="sidebar__profile-avatar"
         />
       </div>
