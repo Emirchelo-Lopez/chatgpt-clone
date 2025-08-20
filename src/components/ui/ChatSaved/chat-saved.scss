@@ -18,6 +18,10 @@
     }
     &--active {
       background-color: $color-tertiary;
+
+      .sidebar__chat-item-actions {
+        opacity: 1;
+      }
     }
   }
 
@@ -29,14 +33,44 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: $spacing-sm;
   }
 
   &__chat-item-actions {
-    display: flex;
-    align-items: center;
+    @include flex-start;
     gap: $spacing-xs;
     opacity: 0;
     transition: opacity 0.2s ease;
+  }
+
+  &__chat-item-action {
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    transition: all 0.2s ease;
+    @include flex-center;
+
+    &:hover {
+      color: $color-text-primary;
+      background-color: $color-accent;
+    }
+
+    &--edit {
+      &:hover {
+        color: #3b82f6;
+        background-color: rgba(#3b82f6, 0.1);
+      }
+    }
+
+    &--delete {
+      &:hover {
+        color: #ef4444;
+        background-color: rgba(#ef4444, 0.1);
+      }
+    }
   }
 
   &__chat-item-input {
@@ -55,20 +89,4 @@
       border-bottom-color: $color-gradient-start;
     }
   }
-
-  //   &__chat-item-menu {
-  //     background: transparent;
-  //     border: none;
-  //     color: $color-text-muted;
-  //     cursor: pointer;
-  //     padding: $spacing-xs;
-  //     border-radius: $border-radius-sm;
-  //     opacity: 0;
-  //     transition: all 0.2s ease;
-
-  //     &:hover {
-  //       background-color: $color-accent;
-  //       color: $color-text-primary;
-  //     }
-  //   }
 }

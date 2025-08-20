@@ -1,4 +1,4 @@
-import { Edit, Trash2 } from "lucide-react";
+import { Edit3, Trash2 } from "lucide-react";
 import { useState } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
@@ -49,16 +49,16 @@ const ChatSaved = ({ chat, isActive, onSelect, onDelete, onRename }) => {
             e.stopPropagation();
             setIsEditing(true);
           }}
-          className="sidebar__chat-item-menu"
+          className="sidebar__chat-item-action sidebar__chat-item-action--edit"
         >
-          <Edit size={14} />
+          <Edit3 size={14} />
         </Button>
         <Button
           onClick={(e) => {
             e.stopPropagation();
             onDelete();
           }}
-          className="sidebar__chat-item-menu"
+          className="sidebar__chat-item-action sidebar__chat-item-action--delete"
         >
           <Trash2 size={14} />
         </Button>
