@@ -1,17 +1,18 @@
-// Get the API key from environment variables
-const GOOGLE_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GOOGLE_API_KEY}`;
+// src/api/gemini-ai.js
 
-// Make API call and generate the bot's response
+// Obtén la clave de la API de las variables de entorno
+const GOOGLE_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GOOGLE_API_KEY}`;
+
+// Realiza la llamada a la API y genera la respuesta del bot
 export const generateResponse = async (userMsg, chatHistory) => {
-  // Format the history and the new user message for the API
-  const conversation = [
-    ...chatHistory,
-    {
-      role: "user",
-      parts: [{ text: userMsg }],
-    },
-  ];
+  // Si el historial de chat (chatHistory) tiene contenido, lo usamos.
+  // Si está vacío (como en el caso de las sugerencias de prompts),
+  // creamos una nueva conversación usando el mensaje del usuario (userMsg).
+  const conversation =
+    chatHistory && chatHistory.length > 0
+      ? chatHistory
+      : [{ role: "user", parts: [{ text: userMsg }] }];
 
   try {
     const res = await fetch(API_URL, {
@@ -26,12 +27,12 @@ export const generateResponse = async (userMsg, chatHistory) => {
     }
 
     const data = await res.json();
-    // Extract the text from the response
+    // Extrae el texto de la respuesta
     const botMessage = data.candidates[0].content.parts[0].text;
     return botMessage;
   } catch (error) {
     console.error("Failed to generate AI response:", error);
-    // Return a user-friendly error message
+    // Devuelve un mensaje de error amigable para el usuario
     return "Sorry, I encountered an error. Please try again.";
   }
 };

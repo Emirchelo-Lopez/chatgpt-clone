@@ -1,6 +1,6 @@
 // src/pages/ChatPage/ChatPage.jsx
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
@@ -12,36 +12,31 @@ import useChat from "../../hooks/useChat";
 import "./chat-page.scss";
 
 export default function ChatPage() {
-  // Pending prompt to send extracted from prompt suggestion card
-  //   const { pendingPrompt, setPendingPrompt } = useChat();
-
   const { chatId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { addChat, chatHistory } = useChat();
 
-  // a ref to act as our "has been sent" flag
-  //   const promptSentRef = useRef(false);
+  // We use useRef as a "Has been sent" flag so don't duplicate AI responses
+  const promptSentRef = useRef(false);
 
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Se busca el chat actual en el historial
   const currentChat = chatHistory.find((chat) => chat.id === chatId);
 
-  // Effect to load messages or reset when the chat ID changes
   useEffect(() => {
     const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
     setMessages(savedMessages ? JSON.parse(savedMessages) : []);
   }, [chatId]);
 
-  // Effect to save messages whenever they change
   useEffect(() => {
     localStorage.setItem(`chatMessages_${chatId}`, JSON.stringify(messages));
   }, [messages, chatId]);
 
-  // Effect to fetch user data once
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -54,11 +49,16 @@ export default function ChatPage() {
     fetchUserData();
   }, []);
 
-  // Function to send a message and receive an API response
   const handleSendMessage = useCallback(
     async (contentToSend) => {
       const messageText = contentToSend || userInput;
       if (!messageText.trim()) return;
+
+      // 1. Inicia la carga y limpia el input.
+      setIsLoading(true);
+      if (!contentToSend) {
+        setUserInput("");
+      }
 
       const userMessage = {
         id: `user-${Date.now()}`,
@@ -70,14 +70,14 @@ export default function ChatPage() {
         }),
       };
 
-      const updatedMessages = [...messages, userMessage];
-      setMessages(updatedMessages);
-      setIsLoading(true);
-      if (!contentToSend) {
-        setUserInput("");
-      }
+      // 2. Prepara el historial para la API con el nuevo mensaje.
+      const apiHistory = [...messages, userMessage].map((msg) => ({
+        role: msg.role === "assistant" ? "model" : msg.role,
+        parts: [{ text: msg.content }],
+      }));
 
-      if (messages.length === 0) {
+      // Crea un nuevo chat si es el primer mensaje.
+      if (!currentChat) {
         const newChatTitle =
           messageText.length > 25
             ? `${messageText.substring(0, 25)}...`
@@ -85,11 +85,7 @@ export default function ChatPage() {
         addChat({ id: chatId, title: newChatTitle, isActive: true });
       }
 
-      const apiHistory = updatedMessages.map((msg) => ({
-        role: msg.role === "assistant" ? "model" : msg.role,
-        parts: [{ text: msg.content }],
-      }));
-
+      // 3. Llama a la API.
       const botResponseContent = await generateResponse(
         messageText,
         apiHistory
@@ -105,17 +101,18 @@ export default function ChatPage() {
         }),
       };
 
-      setMessages((prev) => [...prev, botMessage]);
+      // 4. Actualiza el estado UNA SOLA VEZ con ambos mensajes.
+      setMessages((prevMessages) => [...prevMessages, userMessage, botMessage]);
       setIsLoading(false);
     },
-    [userInput, messages, addChat, chatId]
+    [userInput, messages, addChat, chatId, currentChat]
   );
 
-  // Effect to handle the first message passed from HomePage
   useEffect(() => {
     const firstMessage = location.state?.firstMessage;
-    if (firstMessage && messages.length === 0) {
+    if (firstMessage && messages.length === 0 && !promptSentRef.current) {
       handleSendMessage(firstMessage);
+      promptSentRef.current = true; // Establish flag to true after sending
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [
@@ -127,6 +124,8 @@ export default function ChatPage() {
   ]);
 
   const handleNewChat = () => {
+    // Reestablish flag to create new chat
+    promptSentRef.current = false;
     navigate(`/chat/chat-${Date.now()}`);
   };
 
