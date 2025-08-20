@@ -20,22 +20,42 @@ export default function ChatPage() {
   // We use useRef as a "Has been sent" flag so don't duplicate AI responses
   const promptSentRef = useRef(false);
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
   const [userInput, setUserInput] = useState("");
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
 
   // Se busca el chat actual en el historial
   const currentChat = chatHistory.find((chat) => chat.id === chatId);
 
   useEffect(() => {
+    setIsLoadingMessages(true);
     const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
     setMessages(savedMessages ? JSON.parse(savedMessages) : []);
+    setIsLoadingMessages(false);
   }, [chatId]);
 
   useEffect(() => {
-    localStorage.setItem(`chatMessages_${chatId}`, JSON.stringify(messages));
+    if (chatId && messages.length > 0) {
+      localStorage.setItem(`chatMessages_${chatId}`, JSON.stringify(messages));
+    }
   }, [messages, chatId]);
+
+  // Cleanup effect to save messages before component unmounts
+  useEffect(() => {
+    return () => {
+      if (chatId && messages.length > 0) {
+        localStorage.setItem(
+          `chatMessages_${chatId}`,
+          JSON.stringify(messages)
+        );
+      }
+    };
+  }, [chatId, messages]);
 
   useEffect(() => {
     const fetchUserData = async () => {

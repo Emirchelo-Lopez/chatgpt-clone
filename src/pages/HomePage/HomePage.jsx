@@ -35,19 +35,6 @@ const HomePage = () => {
       ? defaultSuggestions
       : promptSuggestions;
 
-  //   // Function to store the clicked prompt card title into inputValue state
-  //   const handlePromptClick = (title) => {
-  //     setInputValue(title);
-  //   };
-
-  //   // function to handle sending the prompt
-  //   const handleSend = () => {
-  //     if (inputValue.trim()) {
-  //       setPendingPrompt(inputValue.trim());
-  //       navigate("/chat");
-  //     }
-  //   };
-
   return (
     <div className="chatgpt-clone">
       {/* Sidebar */}
