@@ -1,24 +1,28 @@
 import { createContext, useState, useEffect } from "react";
-import { generateResponse } from "../api/gemini-ai";
 import { Sparkles } from "lucide-react";
+import { generateResponse } from "../api/gemini-ai";
 import { defaultSuggestions } from "../data/defaultPrompts";
 
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
+  // tracks the selected chat or prompt
   const [activeItem, setActiveItem] = useState(null);
+
+  // holds AI-generated prompt cards.
   const [promptSuggestions, setPromptSuggestions] = useState([]);
+
+  /// flag for loading spinner
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
 
-  // State for the pending prompt from Home Page
-  //   const [pendingPrompt, setPendingPrompt] = useState(null);
-
   // State to manage chat history dynamically
+  // loads saved chats from localStorage or starts empty
   const [chatHistory, setChatHistory] = useState(() => {
     const savedChats = localStorage.getItem("chatHistory");
     return savedChats ? JSON.parse(savedChats) : [];
   });
 
+  // On every update it saves the latest chat history.
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
   }, [chatHistory]);
@@ -41,6 +45,7 @@ const ChatProvider = ({ children }) => {
     );
   };
 
+  // function to generate prompt suggestion cards
   const fetchPromptSuggestions = async () => {
     if (promptSuggestions.length > 0) return;
     setIsLoadingPrompts(true);
@@ -75,8 +80,6 @@ const ChatProvider = ({ children }) => {
     promptSuggestions,
     isLoadingPrompts,
     fetchPromptSuggestions,
-    // pendingPrompt,
-    // setPendingPrompt,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

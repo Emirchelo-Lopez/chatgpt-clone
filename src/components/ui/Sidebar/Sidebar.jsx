@@ -28,6 +28,15 @@ const Sidebar = () => {
     navigate(path);
   };
 
+  // Function to: delete chat + redirect to home page
+  const handleDeleteChat = (chatId) => {
+    deleteChat(chatId);
+
+    if (activeItem === chatId) {
+      navigate("/start");
+    }
+  };
+
   return (
     <div className="sidebar">
       {/* Header */}
@@ -57,7 +66,7 @@ const Sidebar = () => {
                 chat={chat}
                 isActive={activeItem === chat.id}
                 onSelect={() => handleItemSelect(chat.id, `/chat/${chat.id}`)}
-                onDelete={() => deleteChat(chat.id)}
+                onDelete={() => handleDeleteChat(chat.id)}
                 onRename={(newTitle) => renameChat(chat.id, newTitle)}
               />
             ))}

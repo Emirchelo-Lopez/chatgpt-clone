@@ -12,26 +12,45 @@ import useChat from "../../hooks/useChat";
 import "./chat-page.scss";
 
 export default function ChatPage() {
+  // catches the chat ID from sidebar clicked chat
   const { chatId } = useParams();
+
+  // to navigate to different pages when action occurs
   const navigate = useNavigate();
+
+  //
   const location = useLocation();
+
+  // extract addChat function and chat history from ChatContext
   const { addChat, chatHistory } = useChat();
 
   // We use useRef as a "Has been sent" flag so don't duplicate AI responses
   const promptSentRef = useRef(false);
 
+  // stores the conversation of this specific chat (persisted in localStorage)
+  // State to hold the list of all messages
   const [messages, setMessages] = useState(() => {
+    // loads saved chats from localStorage or starts empty
     const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
+
+  // text in the input box.
   const [userInput, setUserInput] = useState("");
+
+  // current logged-in user info.
   const [userData, setUserData] = useState(null);
+
+  // flag while waiting for AI reply (thinking status).
   const [isLoading, setIsLoading] = useState(false);
+
+  // flag while loading past messages.
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
 
   // Se busca el chat actual en el historial
   const currentChat = chatHistory.find((chat) => chat.id === chatId);
 
+  // load Messages When Chat Opens
   useEffect(() => {
     setIsLoadingMessages(true);
     const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
@@ -69,13 +88,14 @@ export default function ChatPage() {
     fetchUserData();
   }, []);
 
+  // This functions runs when I click send
   const handleSendMessage = useCallback(
     async (contentToSend) => {
       const messageText = contentToSend || userInput;
       if (!messageText.trim()) return;
 
       // 1. Inicia la carga y limpia el input.
-      setIsLoading(true);
+      setIsLoading(true); // show thinking... message
       if (!contentToSend) {
         setUserInput("");
       }
@@ -130,6 +150,9 @@ export default function ChatPage() {
 
   useEffect(() => {
     const firstMessage = location.state?.firstMessage;
+
+    /// If there's a firstMessage and the current chat is empty kicks off the conversation with handleMessage
+    // promptSentRef is a flag to ensure first message is sent once
     if (firstMessage && messages.length === 0 && !promptSentRef.current) {
       handleSendMessage(firstMessage);
       promptSentRef.current = true; // Establish flag to true after sending
