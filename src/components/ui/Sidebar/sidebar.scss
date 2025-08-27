@@ -6,16 +6,59 @@
   background-color: $color-secondary;
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease;
+
+  &--collapsed {
+    width: 4rem;
+
+    .sidebar__logo-text {
+      display: none;
+    }
+
+    .sidebar__nav-item {
+      justify-content: center;
+
+      span {
+        display: none;
+      }
+    }
+
+    .sidebar__settings-btn {
+      justify-content: center;
+
+      span {
+        display: none;
+      }
+    }
+
+    .sidebar__profile-name {
+      display: none;
+    }
+
+    .sidebar__new-chat-btn {
+      display: none;
+    }
+
+    .sidebar__chat-history {
+      display: none;
+    }
+  }
 
   &__header {
     padding: $spacing-lg;
     border-bottom: 1px solid $color-border;
   }
 
+  &__header-content {
+    @include flex-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+  }
+
   &__logo {
     @include flex-start;
     gap: $spacing-md;
-    margin-bottom: $spacing-lg;
+    min-width: 0;
   }
 
   &__logo-icon {
@@ -27,6 +70,32 @@
     font-weight: $font-weight-bold;
     font-size: $font-size-sm;
     color: $color-button-primary-text;
+    flex-shrink: 0;
+  }
+
+  &__logo-text {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+
+  &__collapse-btn {
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    transition: all 0.2s ease;
+    @include flex-center;
+    flex-shrink: 0;
+
+    &:hover {
+      color: $color-text-primary;
+      background-color: $color-tertiary;
+    }
   }
 
   &__nav {
@@ -51,6 +120,7 @@
     flex: 1;
     padding: 0 $spacing-md;
     overflow-y: auto;
+    transition: all 0.3s ease;
   }
 
   &__chat-history-header {

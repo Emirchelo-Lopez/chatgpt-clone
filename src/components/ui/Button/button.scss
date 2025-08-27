@@ -37,6 +37,7 @@
 
   &__new-chat-btn {
     background-color: $color-tertiary;
+    transition: all 0.3s ease;
 
     &:hover {
       background-color: $color-accent;
@@ -46,6 +47,7 @@
   &__settings-btn {
     background-color: transparent;
     margin-bottom: $spacing-md;
+    transition: all 0.2s ease;
 
     &:hover {
       background-color: $color-tertiary;
@@ -53,11 +55,16 @@
 
     &--active {
       background-color: $color-tertiary;
+    }
+
+    span {
+      transition: opacity 0.3s ease;
     }
   }
 
   &__nav-item {
     background-color: transparent;
+    transition: all 0.2s ease;
 
     &:hover {
       background-color: $color-tertiary;
@@ -65,6 +72,10 @@
 
     &--active {
       background-color: $color-tertiary;
+    }
+
+    span {
+      transition: opacity 0.3s ease;
     }
   }
 }

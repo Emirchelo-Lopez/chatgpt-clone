@@ -10,5 +10,7 @@
   &__profile-name {
     font-size: $font-size-sm;
     color: $color-text-secondary;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
   }
 }
