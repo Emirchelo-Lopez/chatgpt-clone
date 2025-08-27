@@ -6,16 +6,72 @@
   background-color: $color-secondary;
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease;
+
+  &--collapsed {
+    width: 7rem;
+
+    .sidebar__header-content {
+      @include flex-center;
+    }
+
+    .sidebar__nav-item,
+    .sidebar__settings-btn {
+      justify-content: center;
+      padding: $spacing-sm;
+    }
+
+    .sidebar__logo-icon {
+      display: none;
+    }
+
+    .sidebar__logo-text {
+      display: none;
+    }
+
+    .sidebar__nav-item {
+      span {
+        display: none;
+      }
+    }
+
+    .sidebar__settings-btn {
+      span {
+        display: none;
+      }
+    }
+
+    .sidebar__profile-name {
+      display: none;
+    }
+
+    // .sidebar__new-chat-btn {
+    //   display: none;
+    // }
+
+    .sidebar__chat-history {
+      display: none;
+    }
+  }
 
   &__header {
     padding: $spacing-lg;
     border-bottom: 1px solid $color-border;
+    flex-shrink: 0;
+  }
+
+  &__header-content {
+    @include flex-between;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+    margin-bottom: $spacing-lg;
   }
 
   &__logo {
     @include flex-start;
     gap: $spacing-md;
-    margin-bottom: $spacing-lg;
+    // margin-bottom: $spacing-lg;
   }
 
   &__logo-icon {
@@ -27,6 +83,15 @@
     font-weight: $font-weight-bold;
     font-size: $font-size-sm;
     color: $color-button-primary-text;
+    flex-shrink: 0;
+  }
+
+  &__logo-text {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
   }
 
   &__nav {
@@ -51,10 +116,12 @@
     flex: 1;
     padding: 0 $spacing-md;
     overflow-y: auto;
+    transition: all 0.3s ease;
+    min-height: 0; // Important for flex overflow
   }
 
   &__chat-history-header {
-    padding: $spacing-md 0;
+    padding: $spacing-sm 0;
     margin-bottom: $spacing-xs;
   }
 
@@ -71,4 +138,39 @@
     flex-direction: column;
     gap: $spacing-xs;
   }
+
+  // Scrollbar styling for chat history
+  &__chat-history::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &__chat-history::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &__chat-history::-webkit-scrollbar-thumb {
+    background: $color-border;
+    border-radius: 2px;
+
+    &:hover {
+      background: $color-border-hover;
+    }
+  }
+
+  &__footer {
+    padding: $spacing-lg;
+    border-top: 1px solid $color-border;
+    flex-shrink: 0;
+    margin-top: auto; // Push to bottom when no chat history
+  }
 }
+
+// Responsive design
+// @media (max-width: $breakpoint-tablet) {
+//   .sidebar {
+//     &--collapsed {
+//       width: 0;
+//       overflow: hidden;
+//     }
+//   }
+// }

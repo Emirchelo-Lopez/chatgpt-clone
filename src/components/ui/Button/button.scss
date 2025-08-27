@@ -27,23 +27,85 @@
 }
 
 .sidebar {
+  //   &--collapsed {
+  //     &__new-chat-btn,
+  //     &__settings-btn {
+  //       opacity: 0;
+  //       pointer-events: none;
+  //     }
+  //   }
+
+  // Toggle sidebar on/off styling button
+  &__collapse-btn {
+    background: transparent;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    transition: all 0.2s ease;
+    @include flex-center;
+    flex-shrink: 0;
+
+    &:hover {
+      color: $color-text-primary;
+      background-color: $color-tertiary;
+    }
+  }
+
+  //   &__logo-icon,
+  //   &__new-chat-btn,
+  //   &__settings-btn,
+  //   &__profile-avatar {
+  //     transition: opacity 0.3s ease;
+  //   }
+
+  //   &__new-chat-btn,
+  //   &__nav-item,
+  //   &__settings-btn {
+  //     @include button-base;
+  //     width: 100%;
+  //     color: $color-text-primary;
+  //   }
+
   &__new-chat-btn,
   &__nav-item,
   &__settings-btn {
     @include button-base;
-    width: 100%;
+    transition: all 0.2s ease;
     color: $color-text-primary;
+    // border: none;
+    // cursor: pointer;
   }
 
   &__new-chat-btn {
+    width: 100%;
     background-color: $color-tertiary;
 
     &:hover {
       background-color: $color-accent;
     }
+    // Collapsed state styling
+    &--collapsed {
+      width: 2rem;
+      height: 2rem;
+      padding: $spacing-xs;
+      border-radius: $border-radius-md;
+      justify-content: center;
+      margin: 0 auto;
+
+      span {
+        display: none;
+      }
+    }
+
+    span {
+      transition: opacity 0.3s ease;
+    }
   }
 
   &__settings-btn {
+    width: 100%;
     background-color: transparent;
     margin-bottom: $spacing-md;
 
@@ -57,6 +119,7 @@
   }
 
   &__nav-item {
+    width: 100%;
     background-color: transparent;
 
     &:hover {
@@ -65,6 +128,10 @@
 
     &--active {
       background-color: $color-tertiary;
+    }
+
+    span {
+      transition: opacity 0.3s ease;
     }
   }
 }
