@@ -155,7 +155,7 @@ export default function ChatPage() {
     // promptSentRef is a flag to ensure first message is sent once
     if (firstMessage && messages.length === 0 && !promptSentRef.current) {
       handleSendMessage(firstMessage);
-      promptSentRef.current = true; // Establish flag to true after sending
+      promptSentRef.current = true; // Stablish flag to true after sending
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [
