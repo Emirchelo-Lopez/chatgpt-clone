@@ -68,6 +68,12 @@
     margin-bottom: $spacing-lg;
   }
 
+  &__header-content {
+    @include flex-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+  }
+
   &__logo {
     @include flex-start;
     gap: $spacing-md;
