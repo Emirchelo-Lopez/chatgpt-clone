@@ -11,4 +11,9 @@
     margin: 0 auto;
     padding: 0 $spacing-xl;
   }
+
+  // Add top padding on mobile to account for menu button
+  @media (max-width: $breakpoint-mobile) {
+    padding-top: 4rem; // Space for mobile menu button
+  }
 }

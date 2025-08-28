@@ -1,12 +1,78 @@
 @use "../../../assets/styles/variables" as *;
 @use "../../../assets/styles/mixins" as *;
 
+// Mobile menu button
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: $spacing-md;
+  left: $spacing-md;
+  z-index: 1001;
+  background-color: $color-secondary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm;
+  color: $color-text-primary;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $color-tertiary;
+    border-color: $color-border-hover;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Mobile overlay
+.mobile-overlay {
+  display: none;
+
+  @media (max-width: $breakpoint-mobile) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(4px);
+  }
+}
+
 .sidebar {
   width: $sidebar-width;
   background-color: $color-secondary;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
+  position: relative;
+
+  // Mobile styles
+  &--mobile {
+    @media (max-width: $breakpoint-mobile) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 280px;
+      z-index: 1000;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      border-right: 1px solid $color-border;
+    }
+  }
+
+  &--mobile-open {
+    @media (max-width: $breakpoint-mobile) {
+      transform: translateX(0);
+    }
+  }
 
   &--collapsed {
     width: 7rem;
@@ -51,6 +117,27 @@
 
     .sidebar__chat-history {
       display: none;
+    }
+
+    // On mobile, don't apply collapsed styles
+    @media (max-width: $breakpoint-mobile) {
+      width: 280px;
+
+      .sidebar__header-content {
+        @include flex-between;
+      }
+
+      .sidebar__logo-text,
+      .sidebar__nav-item span,
+      .sidebar__settings-btn span,
+      .sidebar__profile-name {
+        display: block;
+      }
+
+      .sidebar__chat-history {
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 
@@ -171,4 +258,14 @@
   }
 }
 
-// Responsive design
+// Responsive adjustments
+@media (max-width: $breakpoint-mobile) {
+  .sidebar {
+    // Reset desktop collapsed styles on mobile
+    &--collapsed {
+      .sidebar__header-content {
+        @include flex-between;
+      }
+    }
+  }
+}
