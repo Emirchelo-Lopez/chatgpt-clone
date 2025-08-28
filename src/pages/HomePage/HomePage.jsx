@@ -9,8 +9,12 @@ import "./home-page.scss";
 
 const HomePage = () => {
   // States to render prompt suggestions without unnecessary API calls
-  const { promptSuggestions, isLoadingPrompts, fetchPromptSuggestions } =
-    useChat();
+  const {
+    promptSuggestions,
+    isLoadingPrompts,
+    fetchPromptSuggestions,
+    setActiveItem,
+  } = useChat();
 
   // State to handle the input field's value
   const [userInput, setUserInput] = useState("");
@@ -22,10 +26,12 @@ const HomePage = () => {
     fetchPromptSuggestions();
   }, [fetchPromptSuggestions]);
 
+  // When sending the message from home page it sets the chat item state as active
   const handleSendMessage = () => {
     if (!userInput.trim()) return;
 
     const newChatId = `chat-${Date.now()}`;
+    setActiveItem(newChatId);
     navigate(`/chat/${newChatId}`, { state: { firstMessage: userInput } });
   };
 

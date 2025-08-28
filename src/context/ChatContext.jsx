@@ -70,6 +70,20 @@ const ChatProvider = ({ children }) => {
     }
   };
 
+  // New chat creation with active state by default
+  const createNewChat = (navigate, firstMessage = null) => {
+    const newChatId = `chat-${Date.now()}`;
+    setActiveItem(newChatId);
+
+    if (firstMessage) {
+      navigate(`/chat/${newChatId}`, { state: { firstMessage } });
+    } else {
+      navigate(`/chat/${newChatId}`);
+    }
+
+    return newChatId;
+  };
+
   const value = {
     activeItem,
     setActiveItem,
@@ -80,6 +94,7 @@ const ChatProvider = ({ children }) => {
     promptSuggestions,
     isLoadingPrompts,
     fetchPromptSuggestions,
+    createNewChat,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

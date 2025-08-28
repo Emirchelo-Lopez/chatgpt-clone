@@ -22,7 +22,7 @@ export default function ChatPage() {
   const location = useLocation();
 
   // extract addChat function and chat history from ChatContext
-  const { addChat, chatHistory } = useChat();
+  const { addChat, chatHistory, createNewChat } = useChat();
 
   // We use useRef as a "Has been sent" flag so don't duplicate AI responses
   const promptSentRef = useRef(false);
@@ -186,7 +186,8 @@ export default function ChatPage() {
                 name={userData?.first_name}
                 timestamp={message.timestamp}
                 content={message.content}
-                onNewChat={handleNewChat}
+                onNewChat={() => createNewChat(navigate)}
+                navigate={navigate}
               />
             ))}
             {isLoading && (
@@ -201,7 +202,7 @@ export default function ChatPage() {
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               onSend={() => handleSendMessage()}
-              onNewChat={handleNewChat}
+              onNewChat={() => createNewChat(navigate)}
             />
             <p className="main-content__footer-text">
               Geminisito can make mistakes. Check important info.
