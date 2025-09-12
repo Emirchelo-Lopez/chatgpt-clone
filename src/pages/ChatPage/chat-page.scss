@@ -12,8 +12,30 @@
     padding: 0 $spacing-xl;
   }
 
-  // Add top padding on mobile to account for menu button
+  // top padding on mobile to account for menu button
   @media (max-width: $breakpoint-mobile) {
     padding-top: 4rem; // Space for mobile menu button
+  }
+}
+
+// Add this to your existing styles
+.error-banner {
+  background-color: rgba($color-error, 0.1);
+  border: 1px solid rgba($color-error, 0.3);
+  color: $color-error;
+  padding: $spacing-md;
+  margin: $spacing-md;
+  border-radius: $border-radius-md;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    background: none;
+    border: none;
+    color: $color-error;
+    cursor: pointer;
+    font-weight: $font-weight-bold;
+    padding: $spacing-xs;
   }
 }

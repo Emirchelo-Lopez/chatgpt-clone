@@ -8,12 +8,15 @@ import { defaultSuggestions } from "../../data/defaultPrompts";
 import "./home-page.scss";
 
 const HomePage = () => {
-  // States to render prompt suggestions without unnecessary API calls
+  // Get all needed functions from useChat hook
   const {
     promptSuggestions,
     isLoadingPrompts,
     fetchPromptSuggestions,
     setActiveItem,
+    createNewChat, // Make sure this is included
+    error,
+    clearError,
   } = useChat();
 
   // State to handle the input field's value
@@ -26,13 +29,33 @@ const HomePage = () => {
     fetchPromptSuggestions();
   }, [fetchPromptSuggestions]);
 
-  // When sending the message from home page it sets the chat item state as active
-  const handleSendMessage = () => {
+  // Clear any existing errors when component mounts
+  useEffect(() => {
+    if (error) {
+      clearError();
+    }
+  }, [error, clearError]);
+
+  // When sending the message from home page
+  const handleSendMessage = async () => {
     if (!userInput.trim()) return;
 
-    const newChatId = `chat-${Date.now()}`;
-    setActiveItem(newChatId);
-    navigate(`/chat/${newChatId}`, { state: { firstMessage: userInput } });
+    try {
+      // createNewChat now returns a promise, so we await it
+      await createNewChat(navigate, userInput);
+      setUserInput(""); // Clear input after successful creation
+    } catch (error) {
+      console.error("Failed to create new chat:", error);
+      // Fallback: create a temporary chat ID and navigate
+      const tempChatId = `chat-${Date.now()}`;
+      setActiveItem(tempChatId);
+      navigate(`/chat/${tempChatId}`, { state: { firstMessage: userInput } });
+    }
+  };
+
+  // Handle prompt card clicks
+  const handlePromptClick = (promptTitle) => {
+    setUserInput(promptTitle);
   };
 
   // If prompt suggestions fetched correctly will be shown, otherwise, default prompts will be rendered to avoid loading empty page
@@ -48,6 +71,14 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="main-content">
+        {/* Error Banner */}
+        {error && (
+          <div className="error-banner">
+            <span>⚠️ {error}</span>
+            <button onClick={clearError}>✕</button>
+          </div>
+        )}
+
         {/* Welcome Section */}
         <div className="main-content__welcome-section">
           <div className="main-content__welcome-container">
@@ -70,7 +101,7 @@ const HomePage = () => {
                   key={index}
                   icon={prompt.icon}
                   title={prompt.title}
-                  onClick={() => setUserInput(prompt.title)}
+                  onClick={() => handlePromptClick(prompt.title)}
                 />
               ))}
             </div>
