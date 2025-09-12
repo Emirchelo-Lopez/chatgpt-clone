@@ -1,52 +1,44 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
-import Button from "../../components/ui/Button/Button";
+import useAuth from "../../hooks/useAuth";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
 import FormField from "../../components/ui/FormField/FormField";
-import useAuth from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getMeUserService } from "../../api/userService";
+import Button from "../../components/ui/Button/Button";
 import "./settings-page.scss";
 
 const SettingsPage = () => {
-  const { logout } = useAuth();
+  // 1. Get user info and functions directly from the AuthContext
+  const { userInfo, fetchUserInfo, logout } = useAuth();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
+  // 2. Fetch user info (if not already present) when the component mounts
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await getMeUserService();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error at fetching user data", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    fetchUserInfo();
+  }, [fetchUserInfo]);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  // 3. Display a loading state while userInfo is being fetched
+  if (!userInfo) {
+    return (
+      <div className="chatgpt-clone">
+        <Sidebar />
+        <div className="settings-page">
+          <div className="settings-page__container">Loading...</div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="chatgpt-clone">
-      {/* Sidebar */}
       <Sidebar />
-
-      {/* Main Content */}
       <div className="settings-page">
         <div className="settings-page__container">
-          {/* Settings Header */}
           <div className="settings-page__header">
             <h1 className="settings-page__title">Settings</h1>
             <p className="settings-page__subtitle">
@@ -54,28 +46,26 @@ const SettingsPage = () => {
             </p>
           </div>
 
-          {/* Account Settings */}
           <div className="account-settings">
             <div className="account-settings__header">
               <h2 className="account-settings__title">Account Information</h2>
               <p className="account-settings__description">
-                Update your personal information and account details
+                Your personal information and account details
               </p>
             </div>
 
-            {/* Profile Picture Section */}
             <div className="account-settings__section">
               <h3 className="account-settings__section-title">
                 Profile Picture
               </h3>
               <div className="profile-picture">
                 <div className="profile-picture__avatar">
-                  <span>{userData?.first_name?.charAt(0).toUpperCase()}</span>
+                  {/* 4. Read user data directly from the `userInfo` object */}
+                  <span>{userInfo?.firstName?.charAt(0).toUpperCase()}</span>
                 </div>
               </div>
             </div>
 
-            {/* Personal Information */}
             <div className="account-settings__section">
               <h3 className="account-settings__section-title">
                 Personal Information
@@ -85,22 +75,28 @@ const SettingsPage = () => {
                   label="Full Name"
                   type="text"
                   className="form-field__input"
-                  value={`${userData?.first_name || ""} ${
-                    userData?.last_name || ""
+                  value={`${userInfo?.firstName || ""} ${
+                    userInfo?.lastName || ""
                   }`}
+                  readOnly
+                />
+                <FormField
+                  label="Username"
+                  type="text"
+                  className="form-field__input"
+                  value={userInfo?.username || ""}
                   readOnly
                 />
                 <FormField
                   label="Email Address"
                   type="email"
                   className="form-field__input"
-                  value={userData?.email || ""}
+                  value={userInfo?.email || ""}
                   readOnly
                 />
               </div>
             </div>
 
-            {/* Account Actions */}
             <div className="account-settings__section">
               <h3 className="account-settings__section-title">
                 Account Actions
