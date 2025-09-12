@@ -4,38 +4,75 @@ import { getMeUserService } from "../api/userService";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+// This helper function safely initializes the auth state from localStorage
+const getInitialAuthState = () => {
   const storedToken = localStorage.getItem("token");
 
-  // user tokens
-  const [user, setUser] = useState(storedToken ? jwtDecode(storedToken) : null);
-  const [token, setToken] = useState(storedToken);
+  if (storedToken) {
+    try {
+      // Try to decode the token
+      const decodedUser = jwtDecode(storedToken);
 
-  // user info state
+      // Optional but recommended: Check if the token is expired
+      if (decodedUser.exp * 1000 < Date.now()) {
+        console.warn("Expired token found in storage.");
+        localStorage.removeItem("token");
+        return { user: null, token: null };
+      }
+
+      // If token is valid and not expired, return the user and token
+      return { user: decodedUser, token: storedToken };
+    } catch (error) {
+      // If decoding fails, the token is invalid. Remove it.
+      console.error("Invalid token found in storage. Removing it.", error);
+      localStorage.removeItem("token");
+      return { user: null, token: null };
+    }
+  }
+
+  // If no token is found, return a null state
+  return { user: null, token: null };
+};
+
+const AuthProvider = ({ children }) => {
+  // Initialize state safely using our new function
+  const initialAuthState = getInitialAuthState();
+  const [user, setUser] = useState(initialAuthState.user);
+  const [token, setToken] = useState(initialAuthState.token);
   const [userInfo, setUserInfo] = useState(null);
 
-  // Login function
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setToken(token);
-    setUser(jwtDecode(token));
+  const login = (newToken) => {
+    try {
+      // Also protect the login function in case of an invalid token from the API
+      const decodedUser = jwtDecode(newToken);
+      localStorage.setItem("token", newToken);
+      setToken(newToken);
+      setUser(decodedUser);
+    } catch (error) {
+      console.error("Failed to decode token on login:", error);
+      // Clear out any potentially bad state
+      logout();
+    }
   };
 
-  // Logout function
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
     setToken(null);
+    setUserInfo(null); // Also clear user info on logout
   };
 
-  // Fetching the user info
   const fetchUserInfo = async () => {
-    if (userInfo) return;
+    // Prevent fetching if already have info or if there's no token
+    if (userInfo || !token) return;
+
     try {
       const data = await getMeUserService();
-      setUserInfo(data);
+      setUserInfo(data.data.user); // The user object is nested under response.data.data.user
     } catch (error) {
       console.error("Failed to fetch user data for context: ", error);
+      // If fetching fails (e.g., token is actually invalid on the server), log the user out
+      logout();
     }
   };
 

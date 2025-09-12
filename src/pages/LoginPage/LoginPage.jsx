@@ -1,30 +1,52 @@
 import { ArrowRight } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import "./login-page.scss";
 import FormField from "../../components/ui/FormField/FormField";
 import Button from "../../components/ui/Button/Button";
-import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "../../components/ui/Navbar/Navbar";
-import { useFormik } from "formik";
-import { loginSchema } from "../../schemas/validationSchemas";
 import { loginUserService } from "../../api/userService";
 import useAuth from "../../hooks/useAuth";
 
 const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
-    validationSchema: loginSchema,
-    onSubmit: async (values) => {
+    validationSchema: yup.object().shape({
+      username: yup.string().required("Username or email is required"),
+      password: yup.string().required("Password is required"),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
       try {
+        // 1. Get the full response from the API call
         const response = await loginUserService(values);
-        login(response.data.token);
-        navigate("/start");
+
+        // 2. FIX: Correctly access the nested token string
+        // The path is response -> axios `data` property -> your `data` object -> `token`
+        const token = response.data?.data?.token;
+
+        if (token && typeof token === "string") {
+          // 3. Pass the valid token string to the login function
+          login(token);
+          navigate("/start");
+        } else {
+          // This will handle cases where the login is successful but the token is missing
+          throw new Error("Login succeeded, but no token was received.");
+        }
       } catch (error) {
-        alert(`Login failed: ${error.message}`);
+        const errorMessage =
+          error.response?.data?.message ||
+          "Login failed. Check your credentials.";
+        alert(errorMessage);
+        console.error("Login error:", error);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -33,7 +55,6 @@ const LoginPage = () => {
     <div className="auth-page">
       <Navbar />
       <div className="auth-page__container">
-        {/* Login Form */}
         <div className="auth-form">
           <div className="auth-form__header">
             <h2 className="auth-form__title">Welcome back</h2>
@@ -44,14 +65,14 @@ const LoginPage = () => {
 
           <form onSubmit={formik.handleSubmit} className="auth-form__form">
             <FormField
-              label="Email address"
-              type="email"
-              name="email"
+              label="Username or Email"
+              type="text"
+              name="username"
               className="form-field__input"
-              placeholder="Enter your email"
-              value={formik.values.email}
+              placeholder="Enter your username or email"
+              value={formik.values.username}
               onChange={formik.handleChange}
-              error={formik.touched.email && formik.errors.email}
+              error={formik.touched.username && formik.errors.username}
               required
             />
             <FormField
@@ -66,8 +87,12 @@ const LoginPage = () => {
               required
             />
 
-            <Button type="submit" className="auth-form__submit-btn">
-              <span>Log In</span>
+            <Button
+              type="submit"
+              className="auth-form__submit-btn"
+              disabled={formik.isSubmitting}
+            >
+              <span>{formik.isSubmitting ? "Logging In..." : "Log In"}</span>
               <ArrowRight size={18} />
             </Button>
           </form>
