@@ -1,5 +1,3 @@
-// src/pages/ChatPage/ChatPage.jsx
-
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ChatInput from "../../components/ui/ChatInput/ChatInput";
@@ -12,70 +10,53 @@ import useChat from "../../hooks/useChat";
 import "./chat-page.scss";
 
 export default function ChatPage() {
-  // catches the chat ID from sidebar clicked chat
   const { chatId } = useParams();
-
-  // to navigate to different pages when action occurs
   const navigate = useNavigate();
-
-  //
   const location = useLocation();
 
-  // extract addChat function and chat history from ChatContext
-  const { addChat, chatHistory, createNewChat } = useChat();
+  const {
+    chatHistory,
+    currentMessages,
+    isLoadingMessages,
+    loadMessages,
+    addMessage,
+    addChat,
+    createNewChat,
+    error,
+    clearError,
+  } = useChat();
 
-  // We use useRef as a "Has been sent" flag so don't duplicate AI responses
   const promptSentRef = useRef(false);
-
-  // stores the conversation of this specific chat (persisted in localStorage)
-  // State to hold the list of all messages
-  const [messages, setMessages] = useState(() => {
-    // loads saved chats from localStorage or starts empty
-    const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
-    return savedMessages ? JSON.parse(savedMessages) : [];
-  });
-
-  // text in the input box.
   const [userInput, setUserInput] = useState("");
-
-  // current logged-in user info.
   const [userData, setUserData] = useState(null);
-
-  // flag while waiting for AI reply (thinking status).
   const [isLoading, setIsLoading] = useState(false);
 
-  // flag while loading past messages.
-  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
-
-  // Se busca el chat actual en el historial
+  // Find current chat
   const currentChat = chatHistory.find((chat) => chat.id === chatId);
 
-  // load Messages When Chat Opens
+  // Load messages when chat changes
   useEffect(() => {
-    setIsLoadingMessages(true);
-    const savedMessages = localStorage.getItem(`chatMessages_${chatId}`);
-    setMessages(savedMessages ? JSON.parse(savedMessages) : []);
-    setIsLoadingMessages(false);
-  }, [chatId]);
-
-  useEffect(() => {
-    if (chatId && messages.length > 0) {
-      localStorage.setItem(`chatMessages_${chatId}`, JSON.stringify(messages));
+    if (chatId && currentChat) {
+      loadMessages(chatId);
     }
-  }, [messages, chatId]);
+  }, [chatId, currentChat?.id]);
 
-  // Cleanup effect to save messages before component unmounts
+  // Handle first message from navigation state
   useEffect(() => {
-    return () => {
-      if (chatId && messages.length > 0) {
-        localStorage.setItem(
-          `chatMessages_${chatId}`,
-          JSON.stringify(messages)
-        );
-      }
-    };
-  }, [chatId, messages]);
+    const firstMessage = location.state?.firstMessage;
 
+    if (
+      firstMessage &&
+      currentMessages.length === 0 &&
+      !promptSentRef.current
+    ) {
+      handleSendMessage(firstMessage);
+      promptSentRef.current = true;
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, currentMessages.length, navigate]);
+
+  // Load user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -88,98 +69,117 @@ export default function ChatPage() {
     fetchUserData();
   }, []);
 
-  // This functions runs when I click send
+  // Clear error when component mounts
+  useEffect(() => {
+    if (error) {
+      clearError();
+    }
+  }, [error, clearError]);
+
   const handleSendMessage = useCallback(
     async (contentToSend) => {
       const messageText = contentToSend || userInput;
       if (!messageText.trim()) return;
 
-      // 1. Inicia la carga y limpia el input.
-      setIsLoading(true); // show thinking... message
+      setIsLoading(true);
       if (!contentToSend) {
         setUserInput("");
       }
 
-      const userMessage = {
-        id: `user-${Date.now()}`,
-        role: "user",
-        content: messageText,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      };
+      try {
+        let conversationId = chatId;
 
-      // 2. Prepara el historial para la API con el nuevo mensaje.
-      const apiHistory = [...messages, userMessage].map((msg) => ({
-        role: msg.role === "assistant" ? "model" : msg.role,
-        parts: [{ text: msg.content }],
-      }));
+        // Create conversation if it doesn't exist
+        if (!currentChat) {
+          const newChat = await addChat(
+            messageText.length > 25
+              ? `${messageText.substring(0, 25)}...`
+              : messageText
+          );
+          conversationId = newChat.id;
+          // Update URL to reflect new conversation ID
+          navigate(`/chat/${conversationId}`, { replace: true });
+        }
 
-      // Crea un nuevo chat si es el primer mensaje.
-      if (!currentChat) {
-        const newChatTitle =
-          messageText.length > 25
-            ? `${messageText.substring(0, 25)}...`
-            : messageText;
-        addChat({ id: chatId, title: newChatTitle, isActive: true });
+        // Add user message to backend
+        await addMessage(conversationId, messageText, "user");
+
+        // Prepare API history for AI generation
+        const apiHistory = [
+          ...currentMessages,
+          {
+            role: "user",
+            content: messageText,
+          },
+        ].map((msg) => ({
+          role: msg.role === "assistant" ? "model" : msg.role,
+          parts: [{ text: msg.content }],
+        }));
+
+        // Generate AI response
+        const botResponseContent = await generateResponse(
+          messageText,
+          apiHistory
+        );
+
+        // Add AI message to backend
+        await addMessage(conversationId, botResponseContent, "assistant");
+      } catch (error) {
+        console.error("Error sending message:", error);
+        // You might want to show a user-friendly error message here
+      } finally {
+        setIsLoading(false);
       }
-
-      // 3. Llama a la API.
-      const botResponseContent = await generateResponse(
-        messageText,
-        apiHistory
-      );
-
-      const botMessage = {
-        id: `bot-${Date.now()}`,
-        role: "assistant",
-        content: botResponseContent,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      };
-
-      // 4. Actualiza el estado UNA SOLA VEZ con ambos mensajes.
-      setMessages((prevMessages) => [...prevMessages, userMessage, botMessage]);
-      setIsLoading(false);
     },
-    [userInput, messages, addChat, chatId, currentChat]
+    [
+      userInput,
+      currentMessages,
+      addMessage,
+      chatId,
+      currentChat,
+      addChat,
+      navigate,
+    ]
   );
 
-  useEffect(() => {
-    const firstMessage = location.state?.firstMessage;
-
-    /// If there's a firstMessage and the current chat is empty kicks off the conversation with handleMessage
-    // promptSentRef is a flag to ensure first message is sent once
-    if (firstMessage && messages.length === 0 && !promptSentRef.current) {
-      handleSendMessage(firstMessage);
-      promptSentRef.current = true; // Stablish flag to true after sending
-      navigate(location.pathname, { replace: true, state: {} });
-    }
-  }, [
-    location.state,
-    location.pathname,
-    messages.length,
-    handleSendMessage,
-    navigate,
-  ]);
-
   const handleNewChat = () => {
-    // Reestablish flag to create new chat
     promptSentRef.current = false;
-    navigate(`/chat/chat-${Date.now()}`);
+    createNewChat(navigate);
   };
+
+  // Show loading state while messages are loading
+  if (isLoadingMessages && currentMessages.length === 0) {
+    return (
+      <div className="chatgpt-clone">
+        <Sidebar />
+        <div className="main-content">
+          <ChatHeader title="Loading..." />
+          <div className="chat-messages">
+            <div className="chat-messages__container">
+              <div>Loading messages...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="chatgpt-clone">
       <Sidebar />
       <div className="main-content">
         <ChatHeader title={currentChat?.title || "New Chat"} />
+
+        {error && (
+          <div className="error-banner">
+            <span>⚠️ {error}</span>
+            <button onClick={clearError}>✕</button>
+          </div>
+        )}
+
         <div className="chat-messages">
           <div className="chat-messages__container">
-            {messages.map((message) => (
+            {currentMessages.map((message) => (
               <ChatMessage
                 key={message.id}
                 role={message.role}
@@ -195,6 +195,7 @@ export default function ChatPage() {
             )}
           </div>
         </div>
+
         <div className="main-content__chat-input-section">
           <div className="main-content__chat-input-container">
             <ChatInput
