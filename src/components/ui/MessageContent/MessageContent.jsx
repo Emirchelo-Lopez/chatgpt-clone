@@ -2,10 +2,10 @@ import "./message-content.scss";
 import Button from "../Button/Button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-import useChat from "../../../hooks/useChat";
+// import useChat from "../../../hooks/useChat";
 
 const MessageContent = ({ role, timestamp, content, onNewChat, navigate }) => {
-  const { createNewChat } = useChat;
+  //   const { createNewChat } = useChat;
 
   return (
     <div className="message__content">
@@ -102,10 +102,7 @@ const MessageContent = ({ role, timestamp, content, onNewChat, navigate }) => {
           <Button className="message__action-btn">
             <ThumbsDown size={16} />
           </Button>
-          <Button
-            onClick={() => createNewChat(navigate)}
-            className="message__action-btn"
-          >
+          <Button onClick={onNewChat} className="message__action-btn">
             <RotateCcw size={16} />
           </Button>
         </div>
