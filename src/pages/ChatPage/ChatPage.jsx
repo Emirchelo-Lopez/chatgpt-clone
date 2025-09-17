@@ -4,7 +4,7 @@ import ChatInput from "../../components/ui/ChatInput/ChatInput";
 import ChatHeader from "../../components/ui/ChatHeader/ChatHeader";
 import ChatMessage from "../../components/ui/ChatMessage/ChatMessage";
 import Sidebar from "../../components/ui/Sidebar/Sidebar";
-import { generateResponse } from "../../api/gemini-ai";
+import { generateResponseService } from "../../api/geminiService";
 import { getMeUserService } from "../../api/userService";
 import useChat from "../../hooks/useChat";
 import "./chat-page.scss";
@@ -39,7 +39,7 @@ export default function ChatPage() {
     if (chatId && currentChat) {
       loadMessages(chatId);
     }
-  }, [chatId, currentChat?.id]);
+  }, [chatId, currentChat, loadMessages]);
 
   // Handle first message from navigation state
   useEffect(() => {
@@ -54,7 +54,13 @@ export default function ChatPage() {
       promptSentRef.current = true;
       navigate(location.pathname, { replace: true, state: {} });
     }
-  }, [location.state, currentMessages.length, navigate]);
+  }, [
+    location.state,
+    currentMessages.length,
+    navigate,
+    handleSendMessage,
+    location.pathname,
+  ]);
 
   // Load user data
   useEffect(() => {
@@ -117,7 +123,7 @@ export default function ChatPage() {
         }));
 
         // Generate AI response
-        const botResponseContent = await generateResponse(
+        const botResponseContent = await generateResponseService(
           messageText,
           apiHistory
         );
@@ -142,10 +148,10 @@ export default function ChatPage() {
     ]
   );
 
-  const handleNewChat = () => {
-    promptSentRef.current = false;
-    createNewChat(navigate);
-  };
+  //   const handleNewChat = () => {
+  //     promptSentRef.current = false;
+  //     createNewChat(navigate);
+  //   };
 
   // Show loading state while messages are loading
   if (isLoadingMessages && currentMessages.length === 0) {

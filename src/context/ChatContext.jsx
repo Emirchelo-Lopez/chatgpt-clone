@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import { Sparkles } from "lucide-react";
-import { generateResponse } from "../api/gemini-ai";
+import { generateResponseService } from "../api/geminiService";
 import { defaultSuggestions } from "../data/defaultPrompts";
 import useAuth from "../hooks/useAuth";
 import {
@@ -320,7 +320,7 @@ const ChatProvider = ({ children }) => {
     [user, token]
   );
 
-  // Generate prompt suggestions (unchanged - doesn't require auth)
+  // Generate prompt suggestions (doesn't require auth)
   const fetchPromptSuggestions = async () => {
     if (promptSuggestions.length > 0) return;
     setIsLoadingPrompts(true);
@@ -328,7 +328,11 @@ const ChatProvider = ({ children }) => {
     try {
       const promptRequest =
         "Give me five prompt ideas of any topic, to see what you're capable of. Prompts must be only text generation-related. Must be a sentence long (not more than 10-12 words). Each prompt should be separated by a hyphen. Go straight to the point.";
-      const botResponseContent = await generateResponse(promptRequest, []);
+      const botResponseContent = await generateResponseService(
+        promptRequest,
+        []
+      );
+      promptRequest, [];
       const arrayPrompts = botResponseContent
         .split("-")
         .filter((p) => p.trim() !== "");

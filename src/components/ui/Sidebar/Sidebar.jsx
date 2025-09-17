@@ -212,7 +212,7 @@ const Sidebar = () => {
           </Button>
 
           <Profile
-            name={userInfo?.first_name || user?.first_name || "User"}
+            name={userInfo?.firstName || user?.firstName || "User"}
             className="sidebar__profile-avatar"
           />
         </div>
