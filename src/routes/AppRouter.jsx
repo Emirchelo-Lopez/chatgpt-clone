@@ -9,6 +9,7 @@ import SignupPage from "../pages/SignupPage/SignupPage";
 import ProtectedRoute from "./ProtectedRoute";
 import TestChatPage from "../components/TestChatPage";
 import ChatPageMinimal from "../components/ChatPageMinimal";
+import ChatPageIntermediate from "../components/ChatPageIntermediate";
 
 const AppRouter = () => {
   return (
@@ -19,7 +20,7 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/start" element={<HomePage />} />
-          <Route path="/chat/:chatId" element={<ChatPageMinimal />} />
+          <Route path="/chat/:chatId" element={<ChatPageIntermediate />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
