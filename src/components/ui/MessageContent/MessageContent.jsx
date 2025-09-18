@@ -4,7 +4,7 @@ import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 // import useChat from "../../../hooks/useChat";
 
-const MessageContent = ({ role, timestamp, content, onNewChat, navigate }) => {
+const MessageContent = ({ role, timestamp, content, onNewChat }) => {
   //   const { createNewChat } = useChat;
 
   return (
