@@ -51,24 +51,47 @@ const ChatPageIntermediate = () => {
 
   // ✅ Load messages when component mounts
   useEffect(() => {
+    console.log("🔍 useEffect for loadMessages triggered");
+    console.log("🔍 Conditions:", {
+      chatId: !!chatId,
+      currentChat: !!currentChat,
+      loadMessages: !!loadMessages,
+      contextError: !!contextError,
+    });
+
     if (chatId && currentChat && loadMessages && !contextError) {
-      console.log("ChatPageIntermediate: Loading messages for chat:", chatId);
+      console.log(
+        "✅ All conditions met, calling loadMessages for chat:",
+        chatId
+      );
+
       loadMessages(chatId)
-        .then(() => {
-          console.log("ChatPageIntermediate: Messages loaded successfully");
+        .then((result) => {
+          console.log("✅ loadMessages resolved successfully:", result);
+          console.log("✅ Result type:", typeof result);
+          console.log("✅ Is array:", Array.isArray(result));
+          if (Array.isArray(result)) {
+            console.log("✅ Messages loaded count:", result.length);
+          }
         })
         .catch((error) => {
-          console.error("ChatPageIntermediate: Error loading messages:", error);
+          console.error("❌ loadMessages rejected with error:", error);
+          console.error("❌ Error details:", {
+            message: error.message,
+            stack: error.stack,
+            name: error.name,
+          });
         });
+    } else {
+      console.log("❌ Conditions not met for loadMessages");
+      console.log("❌ Missing:", {
+        chatId: !chatId ? "chatId" : null,
+        currentChat: !currentChat ? "currentChat" : null,
+        loadMessages: !loadMessages ? "loadMessages function" : null,
+        contextError: contextError ? `contextError: ${contextError}` : null,
+      });
     }
   }, [chatId, currentChat, loadMessages, contextError]);
-
-  // ✅ Clear any context errors
-  useEffect(() => {
-    if (error && clearError && !contextError) {
-      clearError();
-    }
-  }, [error, clearError, contextError]);
 
   // ✅ Conditional rendering after hooks
   if (!chatId) {

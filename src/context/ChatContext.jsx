@@ -21,9 +21,17 @@ const ChatProvider = ({ children }) => {
   try {
     // Get auth status
     const { user, token } = useAuth();
+    console.log("Auth data retrieved in ChatProvider:", {
+      user: !!user,
+      token: !!token,
+    });
 
     // UI State
     const [activeItem, setActiveItem] = useState(null);
+
+    // more logs throughout your ChatProvider...
+    console.log("ChatProvider state initialized");
+
     const [promptSuggestions, setPromptSuggestions] = useState([]);
     const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
 
@@ -107,16 +115,31 @@ const ChatProvider = ({ children }) => {
 
     const loadMessages = useCallback(
       async (conversationId) => {
+        console.log(
+          "🔄 loadMessages called with conversationId:",
+          conversationId
+        );
+
         // Check authentication before loading messages
         if (!user || !token) {
-          console.log("Cannot load messages - user not authenticated");
+          console.log("❌ loadMessages: User not authenticated", {
+            user: !!user,
+            token: !!token,
+          });
           return [];
         }
 
         try {
+          console.log("🔄 loadMessages: Setting loading state to true");
           setIsLoadingMessages(true);
           setError(null);
+
+          console.log("🔄 loadMessages: Calling getMessagesService...");
           const response = await getMessagesService(conversationId);
+          console.log(
+            "✅ loadMessages: getMessagesService response:",
+            response
+          );
 
           // Transform backend messages to frontend format
           const transformedMessages = response.data.messages.map((msg) => ({
@@ -131,10 +154,21 @@ const ChatProvider = ({ children }) => {
             isEdited: msg.isEdited,
           }));
 
+          console.log(
+            "✅ loadMessages: Transformed messages:",
+            transformedMessages
+          );
+          console.log("✅ loadMessages: Setting currentMessages state");
           setCurrentMessages(transformedMessages);
           return transformedMessages;
         } catch (error) {
-          console.error("Failed to load messages:", error);
+          console.error("❌ loadMessages: Error occurred:", error);
+          console.error("❌ loadMessages: Error details:", {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status,
+          });
+
           if (user && token) {
             setError("Failed to load messages");
           }
@@ -144,18 +178,19 @@ const ChatProvider = ({ children }) => {
             `chatMessages_${conversationId}`
           );
           if (savedMessages) {
+            console.log("🔄 loadMessages: Using localStorage fallback");
             const messages = JSON.parse(savedMessages);
             setCurrentMessages(messages);
             return messages;
           }
           return [];
         } finally {
+          console.log("🔄 loadMessages: Setting loading state to false");
           setIsLoadingMessages(false);
         }
       },
       [user, token]
     );
-
     const addChat = useCallback(
       async (title = "New Chat") => {
         // Check authentication before creating chat
@@ -421,6 +456,7 @@ const ChatProvider = ({ children }) => {
       clearError,
     };
 
+    console.log("ChatProvider rendering with context value");
     return (
       <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
     );
