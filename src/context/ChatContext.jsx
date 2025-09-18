@@ -140,6 +140,10 @@ const ChatProvider = ({ children }) => {
             "✅ loadMessages: getMessagesService response:",
             response
           );
+          console.log(
+            "🔍 Full API response structure:",
+            JSON.stringify(response, null, 2)
+          );
 
           // Transform backend messages to frontend format
           const transformedMessages = response.data.messages.map((msg) => ({
