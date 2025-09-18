@@ -82,6 +82,7 @@ export default function ChatPage() {
     }
   }, [error, clearError]);
 
+  // handleSendMessage outside useEffect dependencies
   const handleSendMessage = useCallback(
     async (contentToSend) => {
       const messageText = contentToSend || userInput;
@@ -95,7 +96,6 @@ export default function ChatPage() {
       try {
         let conversationId = chatId;
 
-        // Create conversation if it doesn't exist
         if (!currentChat) {
           const newChat = await addChat(
             messageText.length > 25
@@ -103,14 +103,11 @@ export default function ChatPage() {
               : messageText
           );
           conversationId = newChat.id;
-          // Update URL to reflect new conversation ID
           navigate(`/chat/${conversationId}`, { replace: true });
         }
 
-        // Add user message to backend
         await addMessage(conversationId, messageText, "user");
 
-        // Prepare API history for AI generation
         const apiHistory = [
           ...currentMessages,
           {
@@ -122,17 +119,14 @@ export default function ChatPage() {
           parts: [{ text: msg.content }],
         }));
 
-        // Generate AI response
         const botResponseContent = await generateResponseService(
           messageText,
           apiHistory
         );
 
-        // Add AI message to backend
         await addMessage(conversationId, botResponseContent, "assistant");
       } catch (error) {
         console.error("Error sending message:", error);
-        // You might want to show a user-friendly error message here
       } finally {
         setIsLoading(false);
       }
