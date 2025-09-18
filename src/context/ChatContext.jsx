@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import { Sparkles } from "lucide-react";
 import { generateResponseService } from "../api/geminiService";
 import { defaultSuggestions } from "../data/defaultPrompts";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
 import {
   getConversationsService,
   createConversationService,
@@ -13,9 +13,9 @@ import { getMessagesService, addMessageService } from "../api/messageService";
 
 const ChatContext = createContext();
 
-const ChatProvider = ({ children }) => {
+const ChatProvider = ({ children, user, token }) => {
   // Get auth status
-  const { user, token } = useAuth();
+  //   const { user, token } = useAuth();
 
   // UI State
   const [activeItem, setActiveItem] = useState(null);
