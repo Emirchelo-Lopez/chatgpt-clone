@@ -7,7 +7,6 @@ import SettingsPage from "../pages/SettingsPage/SettingsPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
 import ProtectedRoute from "./ProtectedRoute";
-import ChatPageIntermediate from "../components/ChatPageIntermediate";
 
 const AppRouter = () => {
   return (
@@ -18,7 +17,7 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/start" element={<HomePage />} />
-          <Route path="/chat/:chatId" element={<ChatPageIntermediate />} />
+          <Route path="/chat/:chatId" element={<ChatPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
