@@ -1,8 +1,8 @@
 // src/pages/ChatPage/ChatPageMinimal.jsx
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useChat from "../../hooks/useChat";
-import Sidebar from "../../components/ui/Sidebar/Sidebar";
+import useChat from "../hooks/useChat";
+import Sidebar from "./ui/Sidebar/Sidebar";
 
 const ChatPageMinimal = () => {
   const { chatId } = useParams();
