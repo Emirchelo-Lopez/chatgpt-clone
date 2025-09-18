@@ -15,7 +15,7 @@ export default function ChatPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ ALWAYS call hooks first (unconditionally)
+  // ✅ Always call hooks first (unconditionally)
   const promptSentRef = useRef(false);
   const [userInput, setUserInput] = useState("");
   const [userData, setUserData] = useState(null);
@@ -31,7 +31,6 @@ export default function ChatPage() {
       console.error("ChatPage: Chat context is null or undefined");
       setInitError("Unable to access chat context");
     } else {
-      // Clear any previous init errors if context is now available
       setInitError(null);
     }
   }, [chatContext]);
@@ -61,8 +60,7 @@ export default function ChatPage() {
     return Array.isArray(currentMessages) ? currentMessages : [];
   }, [currentMessages]);
 
-  // ✅ ALL useEffect hooks called unconditionally
-  // Load messages when chat changes
+  // ✅ Load messages when chat changes
   useEffect(() => {
     if (chatId && currentChat && loadMessages && !initError) {
       console.log("ChatPage: Loading messages for chat:", chatId);
@@ -72,9 +70,9 @@ export default function ChatPage() {
     }
   }, [chatId, currentChat, loadMessages, initError]);
 
-  // Handle first message from navigation state
+  // ✅ Handle first message from navigation state
   useEffect(() => {
-    if (initError) return; // Skip if there's an initialization error
+    if (initError) return;
 
     const firstMessage = location.state?.firstMessage;
 
@@ -92,12 +90,12 @@ export default function ChatPage() {
     location.state,
     safeCurrentMessages.length,
     navigate,
-    handleSendMessage,
     location.pathname,
+    handleSendMessage,
     initError,
   ]);
 
-  // Load user data with error handling
+  // ✅ Load user data with error handling
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -113,7 +111,7 @@ export default function ChatPage() {
     }
   }, [initError]);
 
-  // Clear error when component mounts
+  // ✅ Clear error when component mounts
   useEffect(() => {
     if (error && clearError && !initError) {
       clearError();
@@ -139,6 +137,7 @@ export default function ChatPage() {
       try {
         let conversationId = chatId;
 
+        // Create conversation if it doesn't exist
         if (!currentChat) {
           const newChat = await addChat(
             messageText.length > 25
@@ -149,8 +148,10 @@ export default function ChatPage() {
           navigate(`/chat/${conversationId}`, { replace: true });
         }
 
+        // Add user message to backend
         await addMessage(conversationId, messageText, "user");
 
+        // Prepare API history for AI generation
         const apiHistory = [
           ...safeCurrentMessages,
           {
@@ -162,11 +163,13 @@ export default function ChatPage() {
           parts: [{ text: msg.content }],
         }));
 
+        // Generate AI response
         const botResponseContent = await generateResponseService(
           messageText,
           apiHistory
         );
 
+        // Add AI message to backend
         await addMessage(conversationId, botResponseContent, "assistant");
       } catch (error) {
         console.error("ChatPage: Error sending message:", error);
