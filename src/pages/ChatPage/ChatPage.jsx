@@ -60,65 +60,7 @@ export default function ChatPage() {
     return Array.isArray(currentMessages) ? currentMessages : [];
   }, [currentMessages]);
 
-  // ✅ Load messages when chat changes
-  useEffect(() => {
-    if (chatId && currentChat && loadMessages && !initError) {
-      console.log("ChatPage: Loading messages for chat:", chatId);
-      loadMessages(chatId).catch((error) => {
-        console.error("ChatPage: Error loading messages:", error);
-      });
-    }
-  }, [chatId, currentChat, loadMessages, initError]);
-
-  // ✅ Handle first message from navigation state
-  useEffect(() => {
-    if (initError) return;
-
-    const firstMessage = location.state?.firstMessage;
-
-    if (
-      firstMessage &&
-      safeCurrentMessages.length === 0 &&
-      !promptSentRef.current
-    ) {
-      console.log("ChatPage: Sending first message from navigation state");
-      handleSendMessage(firstMessage);
-      promptSentRef.current = true;
-      navigate(location.pathname, { replace: true, state: {} });
-    }
-  }, [
-    location.state,
-    safeCurrentMessages.length,
-    navigate,
-    location.pathname,
-    handleSendMessage,
-    initError,
-  ]);
-
-  // ✅ Load user data with error handling
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await getMeUserService();
-        setUserData(data);
-      } catch (error) {
-        console.error("ChatPage: Error fetching user data", error);
-      }
-    };
-
-    if (!initError) {
-      fetchUserData();
-    }
-  }, [initError]);
-
-  // ✅ Clear error when component mounts
-  useEffect(() => {
-    if (error && clearError && !initError) {
-      clearError();
-    }
-  }, [error, clearError, initError]);
-
-  // ✅ Define handleSendMessage
+  // ✅ MOVE handleSendMessage BEFORE the useEffect that uses it
   const handleSendMessage = useCallback(
     async (contentToSend) => {
       if (initError || !addMessage || !addChat) {
@@ -189,7 +131,65 @@ export default function ChatPage() {
     ]
   );
 
-  // ✅ Conditional rendering AFTER all hooks
+  // ✅ Load messages when chat changes
+  useEffect(() => {
+    if (chatId && currentChat && loadMessages && !initError) {
+      console.log("ChatPage: Loading messages for chat:", chatId);
+      loadMessages(chatId).catch((error) => {
+        console.error("ChatPage: Error loading messages:", error);
+      });
+    }
+  }, [chatId, currentChat, loadMessages, initError]);
+
+  // ✅ NOW this useEffect can safely use handleSendMessage
+  useEffect(() => {
+    if (initError) return;
+
+    const firstMessage = location.state?.firstMessage;
+
+    if (
+      firstMessage &&
+      safeCurrentMessages.length === 0 &&
+      !promptSentRef.current
+    ) {
+      console.log("ChatPage: Sending first message from navigation state");
+      handleSendMessage(firstMessage);
+      promptSentRef.current = true;
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [
+    location.state,
+    safeCurrentMessages.length,
+    navigate,
+    location.pathname,
+    handleSendMessage, // ✅ Now this is safely defined above
+    initError,
+  ]);
+
+  // ✅ Load user data with error handling
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await getMeUserService();
+        setUserData(data);
+      } catch (error) {
+        console.error("ChatPage: Error fetching user data", error);
+      }
+    };
+
+    if (!initError) {
+      fetchUserData();
+    }
+  }, [initError]);
+
+  // ✅ Clear error when component mounts
+  useEffect(() => {
+    if (error && clearError && !initError) {
+      clearError();
+    }
+  }, [error, clearError, initError]);
+
+  // ✅ Conditional rendering AFTER all hooks (rest of your code remains the same)
 
   // Check for missing chatId
   if (!chatId) {
