@@ -23,7 +23,7 @@ const LandingPage = () => {
                 of AI Conversations
               </h1>
               <p className="hero__description">
-                Experience the future of AI with ChatGPT. Get instant answers,
+                Experience the future of AI with Geminisito. Get instant answers,
                 creative inspiration, and intelligent assistance for any task.
                 Join millions of users who are already transforming their
                 productivity.
@@ -61,7 +61,7 @@ const LandingPage = () => {
                       <span></span>
                       <span></span>
                     </div>
-                    <span className="chat-preview__title">ChatGPT</span>
+                    <span className="chat-preview__title">Geminisito</span>
                   </div>
                   <div className="chat-preview__messages">
                     <div className="chat-preview__message chat-preview__message--user">
@@ -95,7 +95,7 @@ const LandingPage = () => {
               <div className="welcome-footer__logo-icon">
                 <span>⚡</span>
               </div>
-              <span className="welcome-footer__logo-text">ChatGPT</span>
+              <span className="welcome-footer__logo-text">Geminisito</span>
             </div>
             <div className="welcome-footer__links">
               <div className="welcome-footer__column">
@@ -138,7 +138,7 @@ const LandingPage = () => {
           </div>
           <div className="welcome-footer__bottom">
             <p className="welcome-footer__copyright">
-              © 2024 ChatGPT. All rights reserved.
+              © 2024 Geminisito. All rights reserved.
             </p>
             <div className="welcome-footer__legal">
               <a href="#" className="welcome-footer__legal-link">
