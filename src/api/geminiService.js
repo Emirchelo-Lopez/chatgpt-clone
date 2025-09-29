@@ -17,6 +17,14 @@ export const generateResponseService = async (message, history) => {
     return response.data.response;
   } catch (error) {
     console.error("Failed to generate AI response from backend:", error);
+
+    // More specific error messages
+    if (error.response?.status === 429) {
+      throw new Error("Rate limit exceeded. Please try again later.");
+    } else if (error.response?.status === 401) {
+      throw new Error("API authentication failed.");
+    }
+
     throw new Error("Sorry, I encountered an error. Please try again.");
   }
 };
