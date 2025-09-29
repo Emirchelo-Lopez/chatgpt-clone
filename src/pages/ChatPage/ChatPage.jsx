@@ -11,18 +11,32 @@ import useChat from "../../hooks/useChat";
 import "./chat-page.scss";
 
 export default function ChatPage() {
+  // Gets the chat ID from the URL (like /chat/abc123)
   const { chatId } = useParams();
+
+  // Navigation function to redirect users
   const navigate = useNavigate();
+
+  // Gets any data passed from previous page (like a prompt to send)
   const location = useLocation();
 
   // ✅ Always call hooks first (unconditionally)
+  // Prevents sending the same first message twice
   const promptSentRef = useRef(false);
+
+  // What user is typing in the input box
   const [userInput, setUserInput] = useState("");
+
+  // User's profile info
   const [userData, setUserData] = useState(null);
+
+  // Shows "thinking..." when AI is generating response
   const [isLoading, setIsLoading] = useState(false);
+
+  // If something went wrong during setup
   const [initError, setInitError] = useState(null);
 
-  // ✅ Always call useChat unconditionally
+  // Gets all chat-related functions and data
   const chatContext = useChat();
 
   // ✅ Check if chatContext is valid and set error state if needed
@@ -35,14 +49,13 @@ export default function ChatPage() {
     }
   }, [chatContext]);
 
-  // ✅ Destructure with safety defaults
+  // ✅ Destructure the chat functions and data we need with safety defaults
   const {
-    chatHistory = [],
-    currentMessages = [],
-    isLoadingMessages = false,
-    loadMessages,
-    addMessage,
-    addChat,
+    chatHistory = [], // List of all user's chats
+    currentMessages = [], // Messages in this specific chat
+    loadMessages, // Function to load messages from server
+    addMessage, // Function to save new messages
+    addChat, // Function to create new chat
     createNewChat,
     error,
     clearError,
@@ -60,7 +73,7 @@ export default function ChatPage() {
     return Array.isArray(currentMessages) ? currentMessages : [];
   }, [currentMessages]);
 
-  // ✅ MOVE handleSendMessage BEFORE the useEffect that uses it
+  // ✅ Send message to API function
   const handleSendMessage = useCallback(
     async (contentToSend) => {
       if (initError || !addMessage || !addChat) {
@@ -131,7 +144,7 @@ export default function ChatPage() {
     ]
   );
 
-  // ✅ Load messages when chat changes
+  // ✅ Load messages from DB when chat changes
   useEffect(() => {
     if (chatId && currentChat && loadMessages && !initError) {
       console.log("ChatPage: Loading messages for chat:", chatId);
@@ -141,7 +154,7 @@ export default function ChatPage() {
     }
   }, [chatId, currentChat, loadMessages, initError]);
 
-  // ✅ NOW this useEffect can safely use handleSendMessage
+  // ✅ Send message automatically as first one if comes from home page with a prompt suggestion
   useEffect(() => {
     if (initError) return;
 

@@ -17,6 +17,7 @@ const SettingsPage = () => {
     fetchUserInfo();
   }, [fetchUserInfo]);
 
+  // Logout function when user clicks the respective button
   const handleLogout = () => {
     logout();
     navigate("/login");
