@@ -257,7 +257,7 @@ export default function ChatPage() {
   }
 
   // Show loading state while messages are loading
-  if (isLoadingMessages && safeCurrentMessages.length === 0) {
+  if (safeCurrentMessages.length === 0) {
     return (
       <div className="chatgpt-clone">
         <Sidebar />
